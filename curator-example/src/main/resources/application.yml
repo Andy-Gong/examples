@@ -1,0 +1,12 @@
+server:
+  port: 9080
+
+zookeeper:
+  serverLists: localhost:2181
+  namespace: test
+  baseSleepTimeMilliseconds: 3000
+  maxSleepTimeMilliseconds: 3000
+  maxRetries: 3
+  sessionTimeoutMilliseconds: 3000
+  connectionTimeoutMilliseconds: 3000
+  digest:
