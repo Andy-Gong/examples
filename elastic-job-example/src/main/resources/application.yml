@@ -10,3 +10,17 @@ zookeeper:
   sessionTimeoutMilliseconds: 3000
   connectionTimeoutMilliseconds: 3000
   digest:
+elastic-jobs:
+  jobs:
+    -
+      jobName: test1
+      shardingItemParameters: 0=a,1=b,2=c,3=d,4=d,5=d
+      cron: 0 */1 * * * ?
+      jobClass: elastic.job.example.ExampleJob
+      shardingTotalCount: 5
+    -
+      jobName: test2
+      shardingItemParameters: 0=a,1=b,2=c,3=d,4=d,5=d
+      cron: 0 */1 * * * ?
+      jobClass: elastic.job.example.ExampleJob
+      shardingTotalCount: 5
