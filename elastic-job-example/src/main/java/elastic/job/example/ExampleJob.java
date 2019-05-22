@@ -16,5 +16,11 @@ public class ExampleJob implements SimpleJob {
                 + shardingContext.getShardingItem() + "  "
                 + shardingContext.getTaskId() + "  "
                 + new Timestamp(System.currentTimeMillis()));
+        try {
+            Thread.sleep(180000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Finish execute the shardings");
     }
 }
