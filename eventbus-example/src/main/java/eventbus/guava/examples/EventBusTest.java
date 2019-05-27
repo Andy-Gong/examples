@@ -10,5 +10,6 @@ public class EventBusTest {
         EventBus eventBus = new EventBus();
         eventBus.register(new ChangeEventListener());
         eventBus.post(new ChangeEvent("test-key", "test-value"));
+        eventBus.post(new ChangeEvent("test-key", "test-value"));
     }
 }

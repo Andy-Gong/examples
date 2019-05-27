@@ -12,7 +12,8 @@ public class AsyncEventBusTest {
     public static void main(String[] args) throws InterruptedException {
         EventBus eventBus = new AsyncEventBus(Executors.newCachedThreadPool());
         eventBus.register(new ChangeEventListener());
-        eventBus.post(new ChangeEvent("test-key", "test-value"));
+        eventBus.post(new ChangeEvent("test1-key", "test1-value"));
+        eventBus.post(new ChangeEvent("test2-key", "test2-value"));
         Thread.sleep(1000);
     }
 }
