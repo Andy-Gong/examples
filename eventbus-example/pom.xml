@@ -9,22 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>curator-example</artifactId>
+    <artifactId>eventbus-example</artifactId>
+
     <dependencies>
         <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-framework</artifactId>
-            <version>2.10.0</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-recipes</artifactId>
-            <version>2.10.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.dangdang</groupId>
-            <artifactId>elastic-job-common-core</artifactId>
-        </dependency>
+
     </dependencies>
 
 </project>

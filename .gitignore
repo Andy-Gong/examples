@@ -2,6 +2,8 @@ HELP.md
 **/target/
 !.mvn/wrapper/maven-wrapper.jar
 
+target
+
 ### STS ###
 .apt_generated
 .classpath
@@ -13,6 +15,7 @@ HELP.md
 
 ### IntelliJ IDEA ###
 .idea
+.idea/
 *.iws
 *.iml
 *.ipr

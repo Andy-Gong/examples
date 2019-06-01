@@ -3,8 +3,6 @@ package curator.example;
 import curator.configuration.ZkConfiguration;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.framework.recipes.leader.LeaderLatch;
-import org.apache.curator.framework.recipes.leader.LeaderLatchListener;
 import org.apache.curator.framework.recipes.leader.LeaderSelector;
 import org.apache.curator.framework.recipes.leader.LeaderSelectorListener;
 import org.apache.curator.framework.state.ConnectionState;
@@ -72,6 +70,7 @@ public class TestLeaderElectionLeaderSelector {
                     hasLeader = true;
                     System.out.println("Current leader id is " + leaderSelector.getId()
                             + " and leader id is " + leaderSelector.getLeader().getId());
+                    break;
                 }
             }
             if (hasLeader == false) {
