@@ -1,4 +1,4 @@
-package elastic.job.example.configuration;
+package elastic.job.spring.example.configuration;
 
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfiguration;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;

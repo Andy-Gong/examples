@@ -1,4 +1,4 @@
-package elastic.job.example;
+package elastic.job.spring.example;
 
 import javax.annotation.PostConstruct;
 
@@ -7,8 +7,8 @@ import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
 import com.dangdang.ddframe.job.lite.api.JobScheduler;
 import com.dangdang.ddframe.job.lite.api.strategy.impl.AverageAllocationJobShardingStrategy;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
-import elastic.job.example.configuration.ElasticJobsConfiguration;
-import elastic.job.example.configuration.ZkConfiguration;
+import elastic.job.spring.example.configuration.ElasticJobsConfiguration;
+import elastic.job.spring.example.configuration.ZkConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +30,7 @@ public class ElasticJobInitialize {
             JobCoreConfiguration coreConfig = JobCoreConfiguration
                 .newBuilder(elasticJob.getJobName(), elasticJob.getCron(), elasticJob.getShardingTotalCount())
                 .shardingItemParameters(elasticJob.getShardingItemParameters())
+                .failover(true)
                 .build();
             SimpleJobConfiguration simpleJobConfig = new SimpleJobConfiguration(coreConfig,
                 elasticJob.getJobClass());

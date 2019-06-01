@@ -21,7 +21,7 @@
     </modules>
 
     <properties>
-        <elastic.jobs.version>2.1.5</elastic.jobs.version>
+        <elastic.job.version>2.1.5</elastic.job.version>
         <spring.boot.version>2.1.2.RELEASE</spring.boot.version>
     </properties>
 
@@ -61,7 +61,7 @@
         <dependency>
             <groupId>com.dangdang</groupId>
             <artifactId>elastic-job-lite-core</artifactId>
-            <version>2.1.5</version>
+            <version>${elastic.job.version}</version>
         </dependency>
     </dependencies>
 
