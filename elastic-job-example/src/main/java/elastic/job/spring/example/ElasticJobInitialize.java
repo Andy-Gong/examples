@@ -37,10 +37,7 @@ public class ElasticJobInitialize {
                 .newBuilder(elasticJob.getJobName(), elasticJob.getCron(), elasticJob.getShardingTotalCount())
                 .shardingItemParameters(elasticJob.getShardingItemParameters())
                 .failover(true)
-<<<<<<< HEAD:elastic-job-example/src/main/java/elastic/job/spring/example/ElasticJobInitialize.java
-=======
                 .misfire(true)
->>>>>>> 7de3203ed120e047c1e68cfdcb0eb8e6abd754e0:elastic-job-example/src/main/java/elastic/job/example/ElasticJobInitialize.java
                 .build();
             SimpleJobConfiguration simpleJobConfig = new SimpleJobConfiguration(coreConfig,
                 elasticJob.getJobClass());
