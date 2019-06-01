@@ -1,18 +1,16 @@
 server:
   port: 8080
 
-<<<<<<< HEAD
 logging:
   level:
     root: INFO
-=======
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/elastic_job?useSSL=false
     username: root
     password:
->>>>>>> 7de3203ed120e047c1e68cfdcb0eb8e6abd754e0
 
 zookeeper:
   serverLists: localhost:2181
