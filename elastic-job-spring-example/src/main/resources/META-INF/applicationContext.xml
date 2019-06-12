@@ -32,6 +32,15 @@
                 failover="${simple.failover}" description="${simple.description}" disabled="${simple.disabled}"
                 overwrite="${simple.overwrite}" event-trace-rdb-data-source="elasticJobLog"/>
 
+    <job:simple id="${exception.id}" class="${exception.class}" registry-center-ref="regCenter"
+                sharding-total-count="${exception.shardingTotalCount}" cron="${exception.cron}"
+                sharding-item-parameters="${exception.shardingItemParameters}"
+                monitor-execution="${exception.monitorExecution}" monitor-port="${exception.monitorPort}"
+                failover="${exception.failover}" description="${exception.description}" disabled="${exception.disabled}"
+                overwrite="${exception.overwrite}"
+                job-exception-handler="${exception.handler}"
+                event-trace-rdb-data-source="elasticJobLog"/>
+
     <job:dataflow id="${dataflow.id}" class="${dataflow.class}" registry-center-ref="regCenter"
                   sharding-total-count="${dataflow.shardingTotalCount}" cron="${dataflow.cron}"
                   sharding-item-parameters="${dataflow.shardingItemParameters}"
