@@ -20,6 +20,7 @@
         <module>elastic-job-example</module>
         <module>elastic-job-spring-example</module>
         <module>eventbus-example</module>
+        <module>sharding-jdbc-example</module>
     </modules>
 
     <properties>
@@ -60,6 +61,12 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.1.3.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-autoconfigure</artifactId>
                 <version>2.1.3.RELEASE</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.dangdang/elastic-job-lite-core -->

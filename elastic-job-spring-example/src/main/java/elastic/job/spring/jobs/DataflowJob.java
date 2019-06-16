@@ -15,7 +15,7 @@ public class DataflowJob implements com.dangdang.ddframe.job.api.dataflow.Datafl
      */
     @Override
     public List fetchData(ShardingContext shardingContext) {
-        System.out.println("Dataflow Job starts to execute, and sharding parameter is  "+shardingContext.getShardingParameter());
+        System.out.println("Dataflow Job starts to execute, and shardingstrategy parameter is  "+shardingContext.getShardingParameter());
         return null;
     }
 

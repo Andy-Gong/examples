@@ -1,6 +1,6 @@
-package curator.example;
+package sharding.jdbc.example;
 
-import curator.configuration.ZkConfiguration;
+import sharding.configuration.ZkConfiguration;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.leader.LeaderLatch;

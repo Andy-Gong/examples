@@ -1,4 +1,4 @@
-package curator.configuration;
+package sharding.configuration;
 
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfiguration;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;

@@ -1,0 +1,46 @@
+server:
+  port: 9080
+
+mybatis:
+  mapper-locations: classpath*:mappers/*-mapper.xml
+  type-aliases-package: sharding.jdbc.example.model
+  check-config-location: true
+sharding:
+  jdbc:
+    datasource:
+      names: ds0,ds1
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbcUrl: jdbc:mysql://localhost:3306/ds0
+        username: root
+        password:
+      ds1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbcUrl: jdbc:mysql://localhost:3306/ds1
+        username: root
+        password:
+    config:
+      sharding:
+        props:
+          sql.show: true
+        tables:
+          user:  #user表
+            key-generator-column-name: user_id  #主键
+            actual-data-nodes: ds${0..1}.user  #数据节点
+            database-strategy:  #分库策略
+              standard:
+                precise-algorithm-class-name: sharding.jdbc.example.shardingstrategy.TenantIdSharding
+                sharding-column: tenant_id
+          #            table-strategy:  #分表策略
+          #              inline:
+          #                shardingColumn: sex
+          #                algorithm-expression: t_user${sex % 2}
+          order:
+            key-generator-column-name: order_id
+            actual-data-nodes: ds${0..1}.order  #数据节点
+            database-strategy:  #分库策略
+              standard:
+                precise-algorithm-class-name: sharding.jdbc.example.shardingstrategy.TenantIdSharding
+                sharding-column: tenant_id

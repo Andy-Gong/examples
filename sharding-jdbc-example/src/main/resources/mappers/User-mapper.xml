@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sharding.jdbc.example.mapper.UserMapper">
+	<!--  -->
+
+	<!-- Save对象 -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="userId" parameterType="User">
+		insert into user(tenant_id,company_id,user_name,account,password)
+		values(
+		#{tenantId},#{companyId},#{userName},#{account},#{password})
+	</insert>
+
+	<insert id="batchSave" parameterType="java.util.List">
+		insert into user(tenant_id,company_id,user_name,account,password)
+		values
+		<foreach collection ="list" item="o" index= "index" separator =",">
+			(
+			#{tenantId},#{companyId},#{userName},#{account},#{password}
+			)
+		</foreach >
+	</insert>
+</mapper>
