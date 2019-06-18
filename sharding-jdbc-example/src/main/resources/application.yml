@@ -5,6 +5,11 @@ mybatis:
   mapper-locations: classpath*:mappers/*-mapper.xml
   type-aliases-package: sharding.jdbc.example.model
   check-config-location: true
+#  here we defines tow databases: ds0 and ds1, and tow tables: user and order
+#  database is sharding by tenant id
+#  table is sharding by id,
+#        when id is odd, storing data into table_1,
+#        when id is even, storing data into table_0
 sharding:
   jdbc:
     datasource:
@@ -26,21 +31,25 @@ sharding:
         props:
           sql.show: true
         tables:
-          user:  #user表
-            key-generator-column-name: user_id  #主键
-            actual-data-nodes: ds${0..1}.user  #数据节点
-            database-strategy:  #分库策略
+          user:
+            key-generator-column-name: user_id
+            actual-data-nodes: ds${0..1}.user_${0..1}
+            database-strategy:
               standard:
                 precise-algorithm-class-name: sharding.jdbc.example.shardingstrategy.TenantIdSharding
                 sharding-column: tenant_id
-          #            table-strategy:  #分表策略
-          #              inline:
-          #                shardingColumn: sex
-          #                algorithm-expression: t_user${sex % 2}
+            table-strategy:
+                inline:
+                  shardingColumn: user_id
+                  algorithm-expression: user_${user_id % 2}
           order:
             key-generator-column-name: order_id
-            actual-data-nodes: ds${0..1}.order  #数据节点
-            database-strategy:  #分库策略
+            actual-data-nodes: ds${0..1}.order_${0..1}
+            database-strategy:
               standard:
                 precise-algorithm-class-name: sharding.jdbc.example.shardingstrategy.TenantIdSharding
                 sharding-column: tenant_id
+            table-strategy:
+              inline:
+                shardingColumn: order_id
+                algorithm-expression: order_${order_id % 2}
