@@ -1,22 +1,20 @@
 package sharding.multitenancy.model;
 
-import java.sql.Timestamp;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Builder
 @Entity(name = "user")
 public class User {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private Long id;
     private String name;

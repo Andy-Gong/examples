@@ -9,7 +9,7 @@ import sharding.multitenancy.model.User;
 import sharding.multitenancy.presentation.UserVo;
 import sharding.multitenancy.repository.UserRepository;
 
-@RestController(value = ResourceUtil.BASE_PATH + "/user/")
+@RestController(value = ResourceUtil.BASE_PATH + "/users")
 public class UserController {
 
     @Autowired
@@ -17,7 +17,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST)
     public void save(@RequestBody UserVo userVo) {
-        User tenant = User.builder().name(userVo.getName()).region(userVo.getRegion()).build();
-        userRepository.save(tenant);
+        User user = User.builder().name(userVo.getName()).region(userVo.getRegion()).build();
+        userRepository.save(user);
     }
 }
