@@ -10,7 +10,7 @@ import sharding.multitenancy.presentation.TenantVo;
 import sharding.multitenancy.repository.TenantRepository;
 
 @RestController
-@RequestMapping(ResourceUtil.BASE_PATH + "/tenants")
+@RequestMapping(ResourceUtil.BASE_PATH + ResourceUtil.TENANT_PATH)
 public class TenantController {
 
     @Autowired

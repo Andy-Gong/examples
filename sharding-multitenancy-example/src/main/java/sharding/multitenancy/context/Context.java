@@ -7,6 +7,15 @@ import sharding.multitenancy.model.Tenant;
 public class Context {
 
     private Tenant tenant;
+    private boolean isGlobal = Boolean.FALSE;
+
+    public boolean isGlobal() {
+        return isGlobal;
+    }
+
+    public void setGlobal(boolean global) {
+        isGlobal = global;
+    }
 
     public Tenant getTenant() {
         return tenant;
