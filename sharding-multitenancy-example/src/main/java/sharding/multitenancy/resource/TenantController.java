@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import sharding.multitenancy.model.Tenant;
 import sharding.multitenancy.presentation.TenantVo;
 import sharding.multitenancy.repository.TenantRepository;
 
-@RestController(value = ResourceUtil.BASE_PATH + "/tenants")
+@RestController
+@RequestMapping(ResourceUtil.BASE_PATH + "/tenants")
 public class TenantController {
 
     @Autowired

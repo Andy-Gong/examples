@@ -9,7 +9,8 @@ import sharding.multitenancy.model.User;
 import sharding.multitenancy.presentation.UserVo;
 import sharding.multitenancy.repository.UserRepository;
 
-@RestController(value = ResourceUtil.BASE_PATH + "/users")
+@RestController()
+@RequestMapping(ResourceUtil.BASE_PATH + "/users")
 public class UserController {
 
     @Autowired

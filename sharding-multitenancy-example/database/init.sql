@@ -12,6 +12,7 @@ drop table IF EXISTS `tenant`;
 create TABLE `tenant` (
   `id` varchar(36) NOT NULL,
   `name` varchar(36) NOT NULL,
+  `schema` varchar(100) NOT NULL,
   `create_time` timestamp NOT NULL,
   `update_time` timestamp,
   PRIMARY KEY (`id`)
