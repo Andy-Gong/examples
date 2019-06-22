@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.datasource.AbstractDataSource;
 import org.springframework.stereotype.Component;
 import sharding.multitenancy.context.Context;
@@ -28,6 +29,10 @@ public class MultiTenancyDatasource extends AbstractDataSource {
     @Autowired
     private DataSourceConfigure configure;
 
+//    @Autowired
+//    @Qualifier("dataSource")
+//    private DataSource dataSource;
+
     /**
      * <p>Attempts to establish a connection with the data source that
      * this {@code DataSource} object represents.
@@ -45,13 +50,17 @@ public class MultiTenancyDatasource extends AbstractDataSource {
         if (context == null) {
             return getBasicDataSource().getConnection();
         }
-        DataSource dataSource = dataSourceMap.get(String.valueOf(context.getTenant().getId()));
-        if (dataSource != null) {
-            return dataSource.getConnection();
+        if (context.isGlobal()) {
+            return null;
         } else {
-            dataSource = getDataSource(context.getTenant());
-            dataSourceMap.put(String.valueOf(context.getTenant().getId()), dataSource);
-            return dataSource.getConnection();
+            DataSource dataSource = dataSourceMap.get(String.valueOf(context.getTenant().getId()));
+            if (dataSource != null) {
+                return dataSource.getConnection();
+            } else {
+                dataSource = getDataSource(context.getTenant());
+                dataSourceMap.put(String.valueOf(context.getTenant().getId()), dataSource);
+                return dataSource.getConnection();
+            }
         }
     }
 

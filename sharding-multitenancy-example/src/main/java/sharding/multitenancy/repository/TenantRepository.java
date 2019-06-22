@@ -7,7 +7,6 @@ import sharding.multitenancy.model.Tenant;
 import javax.annotation.sql.DataSourceDefinition;
 
 @Transactional
-@DataSourceDefinition()
 public interface TenantRepository extends JpaRepository<Tenant, Long> {
 
 }
