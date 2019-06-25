@@ -1,5 +1,13 @@
 package sharding.multitenancy.datasource;
 
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.AbstractDataSource;
+import org.springframework.stereotype.Component;
+import sharding.multitenancy.context.Context;
+import sharding.multitenancy.context.ContextManager;
+import sharding.multitenancy.model.Tenant;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLTimeoutException;
@@ -7,15 +15,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sql.DataSource;
-
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.datasource.AbstractDataSource;
-import org.springframework.stereotype.Component;
-import sharding.multitenancy.context.Context;
-import sharding.multitenancy.context.ContextManager;
-import sharding.multitenancy.model.Tenant;
 
 
 @Component("dataSource")
@@ -39,19 +38,17 @@ public class MultiTenancyDatasource extends AbstractDataSource {
      *
      * @return a connection to the data source
      * @throws SQLException if a database access error occurs
-     * @throws SQLTimeoutException when the driver has determined that the
-     * timeout value specified by the {@code setLoginTimeout} method
-     * has been exceeded and has at least tried to cancel the
-     * current database connection attempt
+     * @throws SQLTimeoutException when the driver has determined that the timeout value specified by the {@code setLoginTimeout} method has been exceeded and
+     * has at least tried to cancel the current database connection attempt
      */
     @Override
     public Connection getConnection() throws SQLException {
         Context context = ContextManager.getContext();
-        if (context == null) {
-            return getBasicDataSource().getConnection();
-        }
-        if (context.isGlobal()) {
-            return null;
+        if (context == null || context.isGlobal()) {
+            //get global tenant table
+            Connection connection = getBasicDataSource().getConnection();
+            connection.setSchema("test");
+            return connection;
         } else {
             DataSource dataSource = dataSourceMap.get(String.valueOf(context.getTenant().getId()));
             if (dataSource != null) {
@@ -68,15 +65,12 @@ public class MultiTenancyDatasource extends AbstractDataSource {
      * <p>Attempts to establish a connection with the data source that
      * this {@code DataSource} object represents.
      *
-     * @param username the database user on whose behalf the connection is
-     * being made
+     * @param username the database user on whose behalf the connection is being made
      * @param password the user's password
      * @return a connection to the data source
      * @throws SQLException if a database access error occurs
-     * @throws SQLTimeoutException when the driver has determined that the
-     * timeout value specified by the {@code setLoginTimeout} method
-     * has been exceeded and has at least tried to cancel the
-     * current database connection attempt
+     * @throws SQLTimeoutException when the driver has determined that the timeout value specified by the {@code setLoginTimeout} method has been exceeded and
+     * has at least tried to cancel the current database connection attempt
      * @since 1.4
      */
     @Override
