@@ -80,7 +80,7 @@ public class MultiTenancyDatasource extends AbstractDataSource {
 
     private DataSource getDataSource(Tenant tenant) {
         BasicDataSource dataSource = getBasicDataSource();
-        dataSource.setDefaultSchema(tenant.getSchema());
+        dataSource.setUrl(dataSource.getUrl() + tenant.getSchema());
         return dataSource;
     }
 

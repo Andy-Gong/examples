@@ -1,6 +1,6 @@
 drop table IF EXISTS `user`;
 create TABLE `user` (
-  `id` varchar(36) NOT NULL,
+  `id` bigint NOT NULL auto_increment,
   `name` varchar(36) NOT NULL,
   `region` varchar(36) DEFAULT NULL,
   `create_time` timestamp NOT NULL,
