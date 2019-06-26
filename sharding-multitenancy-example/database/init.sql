@@ -10,7 +10,8 @@ create TABLE `user` (
 
 drop table IF EXISTS `tenant`;
 create TABLE `tenant` (
-  `id` varchar(36) NOT NULL,
+  `id` bigint NOT NULL auto_increment,
+  `tenant_id` bigint NOT NULL,
   `name` varchar(36) NOT NULL,
   `schema` varchar(100) NOT NULL,
   `create_time` timestamp NOT NULL,

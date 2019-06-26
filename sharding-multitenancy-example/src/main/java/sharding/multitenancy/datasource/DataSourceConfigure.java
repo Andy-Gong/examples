@@ -1,8 +1,5 @@
 package sharding.multitenancy.datasource;
 
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -15,12 +12,15 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
 @Configuration
 @ConfigurationProperties(prefix = "datasource")
 @EnableJpaRepositories(
-    entityManagerFactoryRef = "entityManagerFactory",
-    transactionManagerRef = "transactionManager",
-    basePackages = "sharding.multitenancy.repository.shard"
+        entityManagerFactoryRef = "entityManagerFactory",
+        transactionManagerRef = "transactionManager",
+        basePackages = "sharding.multitenancy.repository.shard"
 )
 @EnableTransactionManagement
 public class DataSourceConfigure {
@@ -34,8 +34,8 @@ public class DataSourceConfigure {
 
     @Primary
     @Bean(name = "entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean globalEntityManagerFactory(
-        final @Qualifier("dataSource") DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(
+            final @Qualifier("dataSource") DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setPackagesToScan("sharding.multitenancy.model.shard");
@@ -44,8 +44,8 @@ public class DataSourceConfigure {
     }
 
     @Bean(name = "transactionManager")
-    public PlatformTransactionManager globalTransactionManager(@Qualifier("entityManagerFactory")
-        EntityManagerFactory firstEntityManagerFactory) {
+    public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactory")
+            EntityManagerFactory firstEntityManagerFactory) {
         return new JpaTransactionManager(firstEntityManagerFactory);
     }
 

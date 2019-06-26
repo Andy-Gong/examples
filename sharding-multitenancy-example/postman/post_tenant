@@ -1,0 +1,18 @@
+curl -X POST \
+  http://localhost:8080/multi-tenancy/tenants \
+  -H 'Accept: */*' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -H 'Host: localhost:8080' \
+  -H 'Postman-Token: aed7068a-0721-4e43-a350-e2fd39fbdb96,a50194a8-0731-4418-bac0-4fc1e34f3dc0' \
+  -H 'User-Agent: PostmanRuntime/7.15.0' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'cache-control: no-cache' \
+  -H 'content-length: 71' \
+  -d '{
+    "tenantId": "2",
+    "name": "test_2",
+    "schema": "schema_2"
+}'
+

@@ -18,7 +18,11 @@ public class TenantController {
 
     @RequestMapping(method = RequestMethod.POST)
     public void save(@RequestBody TenantVo tenantVo) {
-        Tenant tenant = Tenant.builder().name(tenantVo.getName()).build();
+        Tenant tenant = Tenant.builder()
+                .name(tenantVo.getName())
+                .schema(tenantVo.getSchema())
+                .tenantId(tenantVo.getTenantId())
+                .build();
         tenantRepository.save(tenant);
     }
 }

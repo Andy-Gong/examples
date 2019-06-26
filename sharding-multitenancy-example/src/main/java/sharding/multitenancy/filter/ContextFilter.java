@@ -32,10 +32,10 @@ public class ContextFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String tenantId = httpServletRequest.getHeader("tenantId");
-        if (StringUtils.isBlank(tenantId) && httpServletRequest.getContextPath().contains(ResourceUtil.TENANT_PATH)) {
+        if (httpServletRequest.getRequestURI().contains(ResourceUtil.TENANT_PATH)) {
             ContextManager.addContext(Context.builder().global(true).build());
         } else {
             Tenant tenant = tenantRepository.findByTenantId(Long.valueOf(tenantId));
@@ -43,13 +43,13 @@ public class ContextFilter implements Filter {
                 throw new RuntimeException("the tenant isn't exist.");
             }
             ContextManager.addContext(Context
-                .builder()
-                .tenant(Tenant.builder()
-                    .id(Long.valueOf(tenantId))
-                    .name(tenant.getName())
-                    .schema(tenant.getSchema())
-                    .build())
-                .build());
+                    .builder()
+                    .tenant(Tenant.builder()
+                            .id(Long.valueOf(tenantId))
+                            .name(tenant.getName())
+                            .schema(tenant.getSchema())
+                            .build())
+                    .build());
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
