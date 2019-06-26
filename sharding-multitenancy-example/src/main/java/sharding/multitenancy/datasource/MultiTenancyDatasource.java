@@ -1,13 +1,5 @@
 package sharding.multitenancy.datasource;
 
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.AbstractDataSource;
-import org.springframework.stereotype.Component;
-import sharding.multitenancy.context.Context;
-import sharding.multitenancy.context.ContextManager;
-import sharding.multitenancy.model.Tenant;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLTimeoutException;
@@ -15,6 +7,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sql.DataSource;
+
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.AbstractDataSource;
+import org.springframework.stereotype.Component;
+import sharding.multitenancy.context.Context;
+import sharding.multitenancy.context.ContextManager;
+import sharding.multitenancy.model.global.Tenant;
 
 
 @Component("dataSource")
@@ -28,9 +28,9 @@ public class MultiTenancyDatasource extends AbstractDataSource {
     @Autowired
     private DataSourceConfigure configure;
 
-//    @Autowired
-//    @Qualifier("dataSource")
-//    private DataSource dataSource;
+    //    @Autowired
+    //    @Qualifier("dataSource")
+    //    private DataSource dataSource;
 
     /**
      * <p>Attempts to establish a connection with the data source that
@@ -44,11 +44,8 @@ public class MultiTenancyDatasource extends AbstractDataSource {
     @Override
     public Connection getConnection() throws SQLException {
         Context context = ContextManager.getContext();
-        if (context == null || context.isGlobal()) {
-            //get global tenant table
-            Connection connection = getBasicDataSource().getConnection();
-            connection.setSchema("test");
-            return connection;
+        if (context == null) {
+            return getBasicDataSource().getConnection();
         } else {
             DataSource dataSource = dataSourceMap.get(String.valueOf(context.getTenant().getId()));
             if (dataSource != null) {

@@ -1,7 +1,6 @@
 package sharding.multitenancy.filter;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -9,7 +8,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import sharding.multitenancy.context.Context;
 import sharding.multitenancy.context.ContextManager;
-import sharding.multitenancy.model.Tenant;
-import sharding.multitenancy.repository.TenantRepository;
+import sharding.multitenancy.model.global.Tenant;
+import sharding.multitenancy.repository.global.TenantRepository;
 import sharding.multitenancy.resource.ResourceUtil;
 
 @Component
@@ -40,13 +38,16 @@ public class ContextFilter implements Filter {
         if (StringUtils.isBlank(tenantId) && httpServletRequest.getContextPath().contains(ResourceUtil.TENANT_PATH)) {
             ContextManager.addContext(Context.builder().global(true).build());
         } else {
-//            Optional<Tenant> tenant = tenantRepository.findById(Long.valueOf(tenantId));
-//            if (!tenant.isPresent()) {
-//                throw new RuntimeException("the tenant isn't exist.");
-//            }
+            Tenant tenant = tenantRepository.findByTenantId(Long.valueOf(tenantId));
+            if (tenant == null) {
+                throw new RuntimeException("the tenant isn't exist.");
+            }
             ContextManager.addContext(Context
                 .builder()
-                .tenant(Tenant.builder().id(Long.valueOf(tenantId)).schema("schema_111")
+                .tenant(Tenant.builder()
+                    .id(Long.valueOf(tenantId))
+                    .name(tenant.getName())
+                    .schema(tenant.getSchema())
                     .build())
                 .build());
         }

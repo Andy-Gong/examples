@@ -1,10 +1,28 @@
 package sharding.multitenancy.datasource;
 
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @ConfigurationProperties(prefix = "datasource")
+@EnableJpaRepositories(
+    entityManagerFactoryRef = "entityManagerFactory",
+    transactionManagerRef = "transactionManager",
+    basePackages = "sharding.multitenancy.repository.shard"
+)
+@EnableTransactionManagement
 public class DataSourceConfigure {
 
     private String driverClassName;
@@ -13,6 +31,24 @@ public class DataSourceConfigure {
     private String password;
     private int maxTotal = 100;
     private int maxIdle = 20;
+
+    @Primary
+    @Bean(name = "entityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean globalEntityManagerFactory(
+        final @Qualifier("dataSource") DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        entityManagerFactoryBean.setDataSource(dataSource);
+        entityManagerFactoryBean.setPackagesToScan("sharding.multitenancy.model.shard");
+        entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        return entityManagerFactoryBean;
+    }
+
+    @Bean(name = "transactionManager")
+    public PlatformTransactionManager globalTransactionManager(@Qualifier("entityManagerFactory")
+        EntityManagerFactory firstEntityManagerFactory) {
+        return new JpaTransactionManager(firstEntityManagerFactory);
+    }
+
 
     public int getMaxTotal() {
         return maxTotal;

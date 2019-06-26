@@ -9,10 +9,10 @@ datasource:
   driverClassName: com.mysql.cj.jdbc.Driver
   url: jdbc:mysql://localhost:3306/
   username: root
-  password:
+  password: root
 
-globalDatasource:
-  driverClassName: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/global
-  username: root
-  password:
+globalDataSource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/global
+    username: root
+    password: root

@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import sharding.multitenancy.model.Tenant;
+import sharding.multitenancy.model.global.Tenant;
 import sharding.multitenancy.presentation.TenantVo;
-import sharding.multitenancy.repository.TenantRepository;
+import sharding.multitenancy.repository.global.TenantRepository;
 
 @RestController
 @RequestMapping(ResourceUtil.BASE_PATH + ResourceUtil.TENANT_PATH)

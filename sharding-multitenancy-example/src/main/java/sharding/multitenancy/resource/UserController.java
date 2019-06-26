@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import sharding.multitenancy.model.User;
+import sharding.multitenancy.model.shard.User;
 import sharding.multitenancy.presentation.UserVo;
-import sharding.multitenancy.repository.UserRepository;
+import sharding.multitenancy.repository.shard.UserRepository;
 
 @RestController()
 @RequestMapping(ResourceUtil.BASE_PATH + "/users")

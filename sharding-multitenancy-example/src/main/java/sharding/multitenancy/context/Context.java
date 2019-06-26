@@ -1,7 +1,7 @@
 package sharding.multitenancy.context;
 
 import lombok.Builder;
-import sharding.multitenancy.model.Tenant;
+import sharding.multitenancy.model.global.Tenant;
 
 @Builder
 public class Context {
