@@ -5,7 +5,7 @@ public class TenantVo {
     private Long id;
     private Long tenantId;
     private String name;
-    private String schema;
+    private String url;
 
     public TenantVo() {
     }
@@ -30,12 +30,12 @@ public class TenantVo {
         this.tenantId = tenantId;
     }
 
-    public String getSchema() {
-        return schema;
+    public String getUrl() {
+        return url;
     }
 
-    public void setSchema(String schema) {
-        this.schema = schema;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public void setName(String name) {
@@ -47,7 +47,7 @@ public class TenantVo {
         private Long id;
         private String name;
         private Long tenantId;
-        private String schema;
+        private String url;
 
         public Builder id(Long id) {
             this.id = id;
@@ -64,8 +64,8 @@ public class TenantVo {
             return this;
         }
 
-        public Builder schema(String schema){
-            this.schema = schema;
+        public Builder url(String url){
+            this.url = url;
             return this;
         }
         public TenantVo build() {
@@ -73,7 +73,7 @@ public class TenantVo {
             tenantVo.setId(this.id);
             tenantVo.setName(this.name);
             tenantVo.setTenantId(this.tenantId);
-            tenantVo.setSchema(this.schema);
+            tenantVo.setUrl(this.url);
             return tenantVo;
         }
     }

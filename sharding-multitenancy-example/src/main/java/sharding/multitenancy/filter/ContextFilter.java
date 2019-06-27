@@ -10,7 +10,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import sharding.multitenancy.context.Context;
@@ -47,7 +46,7 @@ public class ContextFilter implements Filter {
                     .tenant(Tenant.builder()
                             .id(Long.valueOf(tenantId))
                             .name(tenant.getName())
-                            .schema(tenant.getSchema())
+                            .url(tenant.getUrl())
                             .build())
                     .build());
         }

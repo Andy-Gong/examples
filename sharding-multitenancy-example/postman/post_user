@@ -3,7 +3,7 @@ curl -X POST \
   -H 'Content-Type: application/json' \
   -H 'Postman-Token: 6f319ce1-1643-4c1d-a141-0c80f9b516d5' \
   -H 'cache-control: no-cache' \
-  -H 'tenantId: 111' \
+  -H 'tenantId: 2' \
   -d '{
     "name": "andy",
     "region": "beijing"

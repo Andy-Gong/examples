@@ -13,8 +13,9 @@ create TABLE `tenant` (
   `id` bigint NOT NULL auto_increment,
   `tenant_id` bigint NOT NULL,
   `name` varchar(36) NOT NULL,
-  `schema` varchar(100) NOT NULL,
+  `url` varchar(100) NOT NULL,
   `create_time` timestamp NOT NULL,
   `update_time` timestamp,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY TENANT_ID (`tenant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

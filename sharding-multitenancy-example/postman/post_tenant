@@ -13,6 +13,6 @@ curl -X POST \
   -d '{
     "tenantId": "2",
     "name": "test_2",
-    "schema": "schema_2"
+    "url": "jdbc:mysql://localhost:3306/schema_2?useSSL=false"
 }'
 

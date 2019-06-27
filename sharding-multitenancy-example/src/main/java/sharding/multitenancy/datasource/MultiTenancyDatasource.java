@@ -44,12 +44,12 @@ public class MultiTenancyDatasource extends AbstractDataSource {
         if (context == null) {
             return getBasicDataSource().getConnection();
         } else {
-            DataSource dataSource = dataSourceMap.get(String.valueOf(context.getTenant().getId()));
+            DataSource dataSource = dataSourceMap.get(String.valueOf(context.getTenant().getUrl()));
             if (dataSource != null) {
                 return dataSource.getConnection();
             } else {
                 dataSource = getDataSource(context.getTenant());
-                dataSourceMap.put(String.valueOf(context.getTenant().getId()), dataSource);
+                dataSourceMap.put(String.valueOf(context.getTenant().getUrl()), dataSource);
                 return dataSource.getConnection();
             }
         }
@@ -74,7 +74,7 @@ public class MultiTenancyDatasource extends AbstractDataSource {
 
     private DataSource getDataSource(Tenant tenant) {
         BasicDataSource dataSource = getBasicDataSource();
-        dataSource.setUrl(dataSource.getUrl() + tenant.getSchema());
+        dataSource.setUrl(tenant.getUrl());
         return dataSource;
     }
 

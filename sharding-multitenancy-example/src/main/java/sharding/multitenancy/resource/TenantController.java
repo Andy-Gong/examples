@@ -20,7 +20,7 @@ public class TenantController {
     public void save(@RequestBody TenantVo tenantVo) {
         Tenant tenant = Tenant.builder()
                 .name(tenantVo.getName())
-                .schema(tenantVo.getSchema())
+                .url(tenantVo.getUrl())
                 .tenantId(tenantVo.getTenantId())
                 .build();
         tenantRepository.save(tenant);

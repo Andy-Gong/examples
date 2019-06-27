@@ -20,7 +20,7 @@ public class Tenant {
     @Column(name = "tenant_id")
     private Long tenantId;
     private String name;
-    private String schema;
+    private String url;
     @CreationTimestamp
     @Column(name = "create_time")
     private Timestamp createTime;
@@ -36,12 +36,12 @@ public class Tenant {
         this.tenantId = tenantId;
     }
 
-    public String getSchema() {
-        return schema;
+    public String getUrl() {
+        return url;
     }
 
-    public void setSchema(String schema) {
-        this.schema = schema;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Timestamp getCreateTime() {
@@ -85,7 +85,7 @@ public class Tenant {
         private Long id;
         private Long tenantId;
         private String name;
-        private String schema;
+        private String url;
 
         public Builder id(Long id) {
             this.id = id;
@@ -97,8 +97,8 @@ public class Tenant {
             return this;
         }
 
-        public Builder schema(String schema) {
-            this.schema = schema;
+        public Builder url(String url) {
+            this.url = url;
             return this;
         }
 
@@ -111,7 +111,7 @@ public class Tenant {
             Tenant tenant = new Tenant();
             tenant.setId(this.id);
             tenant.setName(this.name);
-            tenant.setSchema(this.schema);
+            tenant.setUrl(this.url);
             tenant.setTenantId(this.tenantId);
             return tenant;
         }
