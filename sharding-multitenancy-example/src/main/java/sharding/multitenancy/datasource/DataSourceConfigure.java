@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+/**
+ * the sharding dataSource which accesses each tenant database
+ */
 @Configuration
 @ConfigurationProperties(prefix = "datasource")
 @EnableJpaRepositories(
@@ -31,6 +34,7 @@ public class DataSourceConfigure {
     private String password;
     private int maxTotal = 100;
     private int maxIdle = 20;
+    private String validation;
 
     @Primary
     @Bean(name = "entityManagerFactory")
@@ -97,4 +101,13 @@ public class DataSourceConfigure {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getValidation() {
+        return validation;
+    }
+
+    public void setValidation(String validation) {
+        this.validation = validation;
+    }
+
 }

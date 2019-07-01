@@ -16,8 +16,10 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import sharding.multitenancy.model.global.Tenant;
 
+/**
+ * this global data source is used to access global database which has sharding meta data.
+ */
 @Configuration
 @ConfigurationProperties(prefix = "global-data-source")
 @EnableJpaRepositories(

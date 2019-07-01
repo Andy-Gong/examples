@@ -86,7 +86,7 @@ public class MultiTenancyDatasource extends AbstractDataSource {
         dataSource.setUrl(configure.getUrl());
         dataSource.setMaxTotal(configure.getMaxTotal());
         dataSource.setMaxIdle(configure.getMaxIdle());
-        dataSource.setValidationQuery("SELECT 1");
+        dataSource.setValidationQuery(configure.getValidation());
         return dataSource;
     }
 }

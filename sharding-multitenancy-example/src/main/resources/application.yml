@@ -9,10 +9,11 @@ datasource:
   driverClassName: com.mysql.cj.jdbc.Driver
   url: jdbc:mysql://localhost:3306/?useSSL=false
   username: root
-  password:
+  password: root
+  validation: SELECT 1
 
 globalDataSource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/global?useSSL=false
     username: root
-    password:
+    password: root

@@ -31,24 +31,26 @@ public class ContextFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-            throws IOException, ServletException {
+        throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String tenantId = httpServletRequest.getHeader("tenantId");
         if (httpServletRequest.getRequestURI().contains(ResourceUtil.TENANT_PATH)) {
+            //if the URI contains tenants, it will operation on global database
             ContextManager.addContext(Context.builder().global(true).build());
         } else {
+            //build session context, it includes the datasource url and tenant id
             Tenant tenant = tenantRepository.findByTenantId(Long.valueOf(tenantId));
             if (tenant == null) {
                 throw new RuntimeException("the tenant isn't exist.");
             }
             ContextManager.addContext(Context
-                    .builder()
-                    .tenant(Tenant.builder()
-                            .id(Long.valueOf(tenantId))
-                            .name(tenant.getName())
-                            .url(tenant.getUrl())
-                            .build())
-                    .build());
+                .builder()
+                .tenant(Tenant.builder()
+                    .id(Long.valueOf(tenantId))
+                    .name(tenant.getName())
+                    .url(tenant.getUrl())
+                    .build())
+                .build());
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
