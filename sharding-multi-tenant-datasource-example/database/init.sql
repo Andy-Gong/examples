@@ -1,9 +1,9 @@
 --global database
 create database global;
 
-drop table IF EXISTS `tenant`;
+drop table IF EXISTS `tenantId`;
 --sharding meta data
-create TABLE `tenant` (
+create TABLE `tenantId` (
   `id` bigint NOT NULL auto_increment,
   `tenant_id` bigint NOT NULL,
   `name` varchar(36) NOT NULL,
