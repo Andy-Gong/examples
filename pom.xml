@@ -21,7 +21,8 @@
         <module>elastic-job-spring-example</module>
         <module>eventbus-example</module>
         <module>sharding-jdbc-example</module>
-        <module>sharding-multitenancy-example</module>
+        <module>sharding-multi-tenant-provider-example</module>
+        <module>sharding-multi-tenant-datasource-example</module>
     </modules>
 
     <properties>
@@ -130,6 +131,11 @@
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-jpa</artifactId>
                 <version>2.1.5.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring.boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>

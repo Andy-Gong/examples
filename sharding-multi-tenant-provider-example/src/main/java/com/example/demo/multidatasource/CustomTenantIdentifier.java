@@ -17,6 +17,9 @@ public class CustomTenantIdentifier implements CurrentTenantIdentifierResolver {
     @Override
     public String resolveCurrentTenantIdentifier() {
         Context context = ContextManager.getContext();
+        if (context == null) {
+            return "1";
+        }
         return String.valueOf(context.getTenantId());
     }
 
