@@ -20,8 +20,8 @@
         <module>elastic-job-example</module>
         <module>elastic-job-spring-example</module>
         <module>eventbus-example</module>
-        <module>sharding-jdbc-example</module>
-        <module>sharding-jdbc-master-slave-example</module>
+        <module>sharding-jdbc-sharding-mybatis-example</module>
+        <module>sharding-jdbc-master-slave-jpa-example</module>
         <module>sharding-multi-tenant-provider-example</module>
         <module>sharding-multi-tenant-datasource-example</module>
     </modules>

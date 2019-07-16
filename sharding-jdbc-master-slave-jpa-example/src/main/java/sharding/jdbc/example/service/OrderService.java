@@ -13,11 +13,12 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public int save(Order order) {
-        return orderRepository.save(order);
+    public long save(Order order) {
+        orderRepository.save(order);
+        return order.getOrderId();
     }
 
-    public int batchSave(List<Order> orders) {
-        return orderRepository.batchSave(orders);
+    public void batchSave(List<Order> orders) {
+        orderRepository.saveAll(orders);
     }
 }

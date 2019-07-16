@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "salve")
+@ConfigurationProperties(prefix = "slave")
 @Getter
 @Setter
 public class SlaveConfig implements DataSourceConfig{

@@ -5,7 +5,7 @@ create database slave;
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user_0`;
-CREATE TABLE `user_0` (
+CREATE TABLE `user` (
   `user_id` bigint(19) NOT NULL AUTO_INCREMENT,
   `tenant_id` int NOT NULL,
   `company_id` bigint(19) DEFAULT NULL,

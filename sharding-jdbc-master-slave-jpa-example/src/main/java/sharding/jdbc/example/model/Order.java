@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -20,11 +19,11 @@ import javax.persistence.Id;
 public class Order {
 
     private Integer tenantId;
-    private BigInteger userId;
+    private long userId;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
-    private Long orderId;
+    private long orderId;
     private String orderName;
     private Timestamp createTime;
 }
