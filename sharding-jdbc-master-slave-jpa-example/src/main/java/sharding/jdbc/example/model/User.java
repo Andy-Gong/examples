@@ -1,6 +1,7 @@
 package sharding.jdbc.example.model;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
 public class User {
 
     private Integer tenantId;
@@ -28,4 +30,8 @@ public class User {
     private String userName;
     private String account;
     private String password;
+
+    public User() {
+
+    }
 }
