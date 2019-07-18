@@ -1,4 +1,4 @@
-package sharding.jdbc.example.config;
+package sharding.jdbc.example.datasource;
 
 public interface DataSourceConfig {
     String getUrl();
@@ -6,5 +6,4 @@ public interface DataSourceConfig {
     String getPassword();
     String getDriverClassName();
     String getDatabaseName();
-
 }

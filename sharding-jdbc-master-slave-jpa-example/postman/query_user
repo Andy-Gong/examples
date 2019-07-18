@@ -1,0 +1,12 @@
+curl -X GET \
+  http://localhost:8080/users/1 \
+  -H 'Accept: */*' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -H 'Host: localhost:8080' \
+  -H 'Postman-Token: 7efc449d-838a-435b-9e2d-e039fbfb232c,0cf3d526-88ab-418f-b18a-05b893f1eb64' \
+  -H 'User-Agent: PostmanRuntime/7.15.0' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'cache-control: no-cache' \
+  -H 'tenantId: 2'

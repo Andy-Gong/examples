@@ -1,4 +1,4 @@
-package sharding.jdbc.example.config;
+package sharding.jdbc.example.datasource;
 
 import com.zaxxer.hikari.HikariDataSource;
 import io.shardingsphere.api.algorithm.masterslave.RandomMasterSlaveLoadBalanceAlgorithm;

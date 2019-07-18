@@ -1,4 +1,4 @@
-package sharding.jdbc.example.config;
+package sharding.jdbc.example.datasource;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,11 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "slave")
+@ConfigurationProperties(prefix = "master")
 @Getter
 @Setter
-public class SlaveConfig implements DataSourceConfig{
-
+public class MasterConfig implements DataSourceConfig{
 
     private String url;
     private String username;
