@@ -25,8 +25,8 @@ public class DataSources {
         Map<String, DataSource> slaveDataSourceMap = new HashMap<>();
         slaveDataSourceMap.put(slaveConfig.getDatabaseName(), slave);
         slaveDataSourceMap.put(masterConfig.getDatabaseName(), master);
-        MasterSlaveRuleConfiguration masterSlaveRuleConfig = new MasterSlaveRuleConfiguration("master_slave", "master",
-                Arrays.asList("slave"), new RandomMasterSlaveLoadBalanceAlgorithm());
+        MasterSlaveRuleConfiguration masterSlaveRuleConfig = new MasterSlaveRuleConfiguration("master_slave", masterConfig.getDatabaseName(),
+                Arrays.asList(slaveConfig.getDatabaseName()), new RandomMasterSlaveLoadBalanceAlgorithm());
         return MasterSlaveDataSourceFactory.createDataSource(slaveDataSourceMap, masterSlaveRuleConfig, new HashMap<>(), new Properties());
     }
 
