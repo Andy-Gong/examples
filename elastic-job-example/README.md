@@ -1,20 +1,25 @@
-package elastic.job.spring.example;
+# Elastic job example
+In this example, it defines elastic jobs in application.yml. And we will register elastic jobs when Spring initialize the ElasticJobInitialize class.
 
-import javax.annotation.PostConstruct;
+application.yml
+```yaml
+elastic-jobs:
+  jobs:
+    - jobName: test1
+      shardingItemParameters: 0=a,1=b,2=c,3=d,4=d,5=d
+      cron: 0 */10 * * * ?
+      jobClass: ExampleJob
+      shardingTotalCount: 5
+    -
+      jobName: test2
+      shardingItemParameters: 0=a,1=b,2=c,3=d,4=d,5=d
+      cron: 0 */1 * * * ?
+      jobClass: ExampleJob
+      shardingTotalCount: 5
+```
 
-import com.dangdang.ddframe.job.config.JobCoreConfiguration;
-import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
-import com.dangdang.ddframe.job.event.JobEventConfiguration;
-import com.dangdang.ddframe.job.event.rdb.JobEventRdbConfiguration;
-import com.dangdang.ddframe.job.lite.api.JobScheduler;
-import com.dangdang.ddframe.job.lite.api.strategy.impl.AverageAllocationJobShardingStrategy;
-import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
-import elastic.job.spring.example.configuration.ElasticJobsConfiguration;
-import elastic.job.spring.example.configuration.ZkConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
-import org.springframework.stereotype.Component;
-
+ElasticJob initialize
+```java
 @Component
 public class ElasticJobInitialize {
 
@@ -52,3 +57,26 @@ public class ElasticJobInitialize {
         });
     }
 }
+```
+
+Job execution class - ExampleJob
+```java
+@Component
+public class ExampleJob implements SimpleJob {
+
+    @Override
+    public void execute(ShardingContext shardingContext) {
+        System.out.println("hello world!!" + shardingContext.getJobName() + "   "
+                + shardingContext.getShardingParameter() + "  "
+                + shardingContext.getShardingItem() + "  "
+                + shardingContext.getTaskId() + "  "
+                + new Timestamp(System.currentTimeMillis()));
+        try {
+            Thread.sleep(180000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Finish execute the shardings");
+    }
+}
+```
