@@ -26,7 +26,7 @@ public class GlobalDataSourceConfigure {
 }
 ```
 
-MultiTenancyDataSource is used to access each tenant database, which stores all data of this tenant.
+MultiTenancyDataSource is used to access database of each tenant, and each tenant has a dedicate DataSource instance.
 ```java
 public class MultiTenancyDataSource extends AbstractDataSource {
 

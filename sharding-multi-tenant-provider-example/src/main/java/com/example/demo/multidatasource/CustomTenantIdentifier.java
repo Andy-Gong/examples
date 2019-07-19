@@ -3,6 +3,7 @@ package com.example.demo.multidatasource;
 import com.example.demo.context.Context;
 import com.example.demo.context.ContextManager;
 import org.hibernate.context.TenantIdentifierMismatchException;
+import org.hibernate.context.spi.CurrentSessionContext;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.stereotype.Component;
 
