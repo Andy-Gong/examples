@@ -1,11 +1,10 @@
 package elastic.job.spring.jobs;
 
-import com.dangdang.ddframe.job.api.ShardingContext;
-
 import java.util.List;
 
-public class DataflowJob implements com.dangdang.ddframe.job.api.dataflow.DataflowJob
-{
+import com.dangdang.ddframe.job.api.ShardingContext;
+
+public class DataflowJob implements com.dangdang.ddframe.job.api.dataflow.DataflowJob {
 
     /**
      * 获取待处理数据.
@@ -15,7 +14,8 @@ public class DataflowJob implements com.dangdang.ddframe.job.api.dataflow.Datafl
      */
     @Override
     public List fetchData(ShardingContext shardingContext) {
-        System.out.println("Dataflow Job starts to execute, and shardingstrategy parameter is  "+shardingContext.getShardingParameter());
+        System.out.println("Dataflow Job starts to execute, and shardingstrategy parameter is  " + shardingContext
+            .getShardingParameter());
         return null;
     }
 

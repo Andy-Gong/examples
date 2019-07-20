@@ -11,6 +11,7 @@ public class SimpleJob implements com.dangdang.ddframe.job.api.simple.SimpleJob 
      */
     @Override
     public void execute(ShardingContext shardingContext) {
-        System.out.println("Simple Job starts to execute, and shardingstrategy parameter is  "+shardingContext.getShardingParameter());
+        System.out.println("Simple Job starts to execute, and shardingstrategy parameter is  " + shardingContext
+            .getShardingParameter());
     }
 }
