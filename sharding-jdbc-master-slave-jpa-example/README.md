@@ -93,6 +93,7 @@ public final class MasterSlavePreparedStatement extends AbstractMasterSlavePrepa
 # Example 
 ## db scripts
 create_master.sql creates master database and tables. 
+
 create_slave.sql creates slave database and tables.
 ## application.properties
 database configuration properties, one master database and one slave database.
@@ -113,4 +114,5 @@ slave.databaseName=slave
 ```
 ## postman scripts
 create_user, it will create the user into the master database.
+
 query_user, it will query the user from the slave database.
