@@ -1,6 +1,8 @@
 # Sharding JDBC master slave model with Spring Data JPA
 Sharding JDBC master-slave model decouples the write and read automatically. It implements DataSource, Connection, PreparedStatement interfaces.
 
+![image](https://github.com/Andy-Gong/examples/blob/master/sharding-jdbc-master-slave-jpa-example/sharding-jdbc-master-slave.png)
+
 MasterSlaveDataSource.class, which includes a master data source and multiple slave data sources. MasterSlaveRule defines the rule of database and tables, which includes the master database name and the slave database names.
 
 ```java
