@@ -2,6 +2,7 @@
 In this example, we have a global database to store the metadata of database of each tenant, which is defined in table: global.tenant_meta. And each tenant has a dedicate database, whose name likes 'schema_2', '2' is tenant id.
 
 In REST API request, we will doFilter to build a process context which includes the tenant basic info and the data source url of this tenant. And in each request, it MUST include the header: "tenantId". You can see the detail implementation in class ContextFilter.
+![image](https://github.com/Andy-Gong/examples/blob/master/sharding-multi-tenant-datasource-example/sharding-by-tenant.png)
 
 ## DataSource design
 There are two DataSources: GlobalDataSource and MultiTenancyDataSource. 
