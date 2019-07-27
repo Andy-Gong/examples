@@ -19,6 +19,7 @@
         <module>curator-example</module>
         <module>scheduled-elastic-job-example</module>
         <module>scheduled-elastic-job-spring-example</module>
+        <module>scheduled-quartz-ram-example</module>
         <module>eventbus-example</module>
         <module>sharding-jdbc-sharding-mybatis-example</module>
         <module>sharding-jdbc-master-slave-jpa-example</module>
@@ -56,6 +57,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
             <version>${spring.boot.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
