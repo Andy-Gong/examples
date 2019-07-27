@@ -13,6 +13,8 @@ Analyze quartz source code.
 ![image](https://github.com/Andy-Gong/examples/blob/master/new_scheduler_workflow.png)
 #### Start a scheduler
 ![image](https://github.com/Andy-Gong/examples/blob/master/start_scheduler.png)
+#### Register JobDetail and Trigger
+![image](https://github.com/Andy-Gong/examples/blob/master/register_jobs_workflow.png)
 #### Run QuartzSchedulerThread that is the heart of Quartz
 ![image](https://github.com/Andy-Gong/examples/blob/master/QuartzSchedulerThread_workflow.png)
 ![image](https://github.com/Andy-Gong/examples/blob/master/run_QuartzSchedulerThread.png)
