@@ -8,19 +8,23 @@
 ### [scheduled-elastic-job-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-elastic-job-example)
 ### [scheduled-elastic-job-spring-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-elastic-job-spring-example)
 ### [scheduled-quartz-ram-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-quartz-ram-example)
-#### Quartz Architecture (ONLY show single scheduler)
-![image](https://github.com/Andy-Gong/examples/blob/master/quartz_architecture.png)
+#### Quartz Architecture (Single scheduler)
+![image](https://github.com/Andy-Gong/examples/blob/master/z-images/quartz_architecture.png)
 #### Analyze source code.
 ##### Create a scheduler
-![image](https://github.com/Andy-Gong/examples/blob/master/new_scheduler_workflow.png)
+![image](https://github.com/Andy-Gong/examples/blob/master/z-images/new_scheduler_workflow.png)
 ##### Start a scheduler
-![image](https://github.com/Andy-Gong/examples/blob/master/start_scheduler.png)
+![image](https://github.com/Andy-Gong/examples/blob/master/z-images/start_scheduler.png)
 ##### Register JobDetail and Trigger
-![image](https://github.com/Andy-Gong/examples/blob/master/register_jobs_workflow.png)
+![image](https://github.com/Andy-Gong/examples/blob/master/z-images/register_jobs_workflow.png)
 ##### Run QuartzSchedulerThread that is the heart of Quartz
-![image](https://github.com/Andy-Gong/examples/blob/master/QuartzSchedulerThread_workflow.png)
-![image](https://github.com/Andy-Gong/examples/blob/master/run_QuartzSchedulerThread.png)
-
+![image](https://github.com/Andy-Gong/examples/blob/master/z-images/QuartzSchedulerThread_workflow.png)
+![image](https://github.com/Andy-Gong/examples/blob/master/z-images/run_QuartzSchedulerThread.png)
+#### Quartz Architecture (Cluster mode)
+![image](https://github.com/Andy-Gong/examples/blob/master/z-images/quartz_architecture_cluster.png)
+Clustering currently only works with JDBC-Jobstore, and each node of the cluster share the same database.
+Load-balancing occurs automatically, each node of the cluster firing jobs as quickly as it can. When a trigger's firing time occurs, the first node to acquire it with a lock on it. For example, if the job has a repeating trigger every 10 seconds, at 1:00:00 one node runs the job, and at 1:00:10, one node runs the job again, the second node maybe same with first one or not.
+Fail-over occurs when one of the nodes fails, the other nodes detect the condition and identify the jobs from the database that were in progress within the failed node and fire them.
 ## EventBus
 ### [eventbus-example](https://github.com/Andy-Gong/examples/tree/master/eventbus-example)
 ## Distributed lock
