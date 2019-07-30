@@ -1,135 +1,243 @@
-# Quartz RAMJobStore example
+# Quartz Cluster example
 In this example, it initializes and registers the elastic job via spring.
 
-applicationContext.xml create elastic job beans and starts the elastic jobs.
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:reg="http://www.dangdang.com/schema/ddframe/reg" xmlns:job="http://www.dangdang.com/schema/ddframe/job"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                        http://www.springframework.org/schema/beans/spring-beans.xsd
-                        http://www.springframework.org/schema/context
-                        http://www.springframework.org/schema/context/spring-context.xsd
-                        http://www.dangdang.com/schema/ddframe/job
-                        http://www.dangdang.com/schema/ddframe/job/job.xsd
-                        http://www.dangdang.com/schema/ddframe/reg
-                        http://www.dangdang.com/schema/ddframe/reg/reg.xsd
-          ">
-
-    <context:component-scan base-package="elastic.job.spring"/>
-    <context:property-placeholder location="classpath:conf/*.properties"/>
-
-    <!--  define datasource of the elastic job execute events trace  -->
-    <bean id="elasticJobLog" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${event.rdb.driver}"/>
-        <property name="url" value="${event.rdb.url}"/>
-        <property name="username" value="${event.rdb.username}"/>
-        <property name="password" value="${event.rdb.password}"/>
-    </bean>
-
-    <reg:zookeeper id="regCenter" server-lists="${serverLists}" namespace="${namespace}"/>
-
-    <job:simple id="${simple.id}" class="${simple.class}" registry-center-ref="regCenter"
-                sharding-total-count="${simple.shardingTotalCount}" cron="${simple.cron}"
-                sharding-item-parameters="${simple.shardingItemParameters}"
-                monitor-execution="${simple.monitorExecution}" monitor-port="${simple.monitorPort}"
-                failover="${simple.failover}" description="${simple.description}" disabled="${simple.disabled}"
-                overwrite="${simple.overwrite}" event-trace-rdb-data-source="elasticJobLog"/>
-
-    <job:simple id="${exception.id}" class="${exception.class}" registry-center-ref="regCenter"
-                sharding-total-count="${exception.shardingTotalCount}" cron="${exception.cron}"
-                sharding-item-parameters="${exception.shardingItemParameters}"
-                monitor-execution="${exception.monitorExecution}" monitor-port="${exception.monitorPort}"
-                failover="${exception.failover}" description="${exception.description}" disabled="${exception.disabled}"
-                overwrite="${exception.overwrite}"
-                job-exception-handler="${exception.handler}"
-                event-trace-rdb-data-source="elasticJobLog"/>
-
-    <job:dataflow id="${dataflow.id}" class="${dataflow.class}" registry-center-ref="regCenter"
-                  sharding-total-count="${dataflow.shardingTotalCount}" cron="${dataflow.cron}"
-                  sharding-item-parameters="${dataflow.shardingItemParameters}"
-                  monitor-execution="${dataflow.monitorExecution}" failover="${dataflow.failover}"
-                  max-time-diff-seconds="${dataflow.maxTimeDiffSeconds}"
-                  streaming-process="${dataflow.streamingProcess}" description="${dataflow.description}"
-                  disabled="${dataflow.disabled}" overwrite="${dataflow.overwrite}" event-trace-rdb-data-source="elasticJobLog"/>
-
-</beans>
-```
-
-job.properties defines the properties of elastic job
+application.properties defines the scheduler properties.
 ```properties
-event.rdb.driver=com.mysql.cj.jdbc.Driver
-event.rdb.url=jdbc:mysql://localhost:3306/elastic_job?useSSL=false
-event.rdb.username=root
-event.rdb.password=
-
-simple.id=springSimpleJob
-simple.class=elastic.job.spring.jobs.SimpleJob
-simple.cron=0/5 * * * * ?
-simple.shardingTotalCount=3
-simple.shardingItemParameters=0=Beijing,1=Shanghai,2=Guangzhou
-simple.monitorExecution=false
-simple.failover=true
-simple.description=\u53EA\u8FD0\u884C\u4E00\u6B21\u7684\u4F5C\u4E1A\u793A\u4F8B
-simple.disabled=false
-simple.overwrite=true
-simple.monitorPort=9888
+# quartz configure
+quartz.scheduler.instanceName=MyScheduler
+quartz.scheduler.threadCount=2
+quartz.scheduler.jobStoreClass=org.quartz.impl.jdbcjobstore.JobStoreTX
+quartz.scheduler.tablePrefix=QRTZ_
+quartz.scheduler.isClustered=true
+quartz.scheduler.dataSourceUrl=jdbc:mysql://localhost:3306/quartz?characterEncoding=utf8&useSSL=false
+quartz.scheduler.dataSourceDriver=com.mysql.cj.jdbc.Driver
+quartz.scheduler.dataSourceUser=root
+quartz.scheduler.dataSourcePassword=
 ```
 
-reg.properties defines the zookeeper properties configuration.
-```properties
-serverLists=localhost:2181
-namespace=test
-baseSleepTimeMilliseconds=1000
-maxSleepTimeMilliseconds=3000
-maxRetries=3
-```
-
-
-Job execution class - SimpleJob and DataflowJob
+Scheduler initialize
 ```java
-public class SimpleJob implements com.dangdang.ddframe.job.api.simple.SimpleJob {
-
-    /**
-     * 执行作业.
-     *
-     * @param shardingContext 分片上下文
-     */
-    @Override
-    public void execute(ShardingContext shardingContext) {
-        System.out.println("Simple Job starts to execute, and shardingstrategy parameter is  " + shardingContext
-            .getShardingParameter());
+public class SchedulerInitialize {
+    @PostConstruct
+    public void scheduler() throws SchedulerException {
+        Properties properties = new Properties();
+        properties.put(StdSchedulerFactory.PROP_SCHED_INSTANCE_NAME, this.instanceName + UUID.randomUUID().toString());
+        properties.put(StdSchedulerFactory.PROP_JOB_STORE_CLASS, this.jobStoreClass);
+        properties.put(StdSchedulerFactory.PROP_TABLE_PREFIX, this.tablePrefix);
+        properties.put("org.quartz.threadPool.threadCount", String.valueOf(this.threadCount));
+        properties.put("org.quartz.dataSource.quartzDataSource.URL", this.dataSourceUrl);
+        properties.put("org.quartz.dataSource.quartzDataSource.user", this.dataSourceUser);
+        properties.put("org.quartz.dataSource.quartzDataSource.password", this.dataSourcePassword);
+        properties.put("org.quartz.dataSource.quartzDataSource.driver", this.dataSourceDriver);
+        properties.put("org.quartz.jobStore.dataSource", "quartzDataSource");
+        properties.put("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate");
+        properties.put("org.quartz.jobStore.isClustered", "true");
+        properties.put("org.quartz.scheduler.instanceId", "AUTO");
+        StdSchedulerFactory stdSchedulerFactory = new StdSchedulerFactory(properties);
+        scheduler = stdSchedulerFactory.getScheduler();
+        scheduler.start();
     }
 }
 ```
-
+Job initialize
 ```java
-public class DataflowJob implements com.dangdang.ddframe.job.api.dataflow.DataflowJob {
+public class JobInitialize {
+    @PostConstruct
+    public void initJob() throws ClassNotFoundException, SchedulerException {
+        JobDetail job = newJob()
+                .withIdentity(this.key + UUID.randomUUID().toString())
+                .ofType((Class<? extends Job>) Class.forName(this.clazz))
+                .build();
 
-    /**
-     * 获取待处理数据.
-     *
-     * @param shardingContext 分片上下文
-     * @return 待处理的数据集合
-     */
-    @Override
-    public List fetchData(ShardingContext shardingContext) {
-        System.out.println("Dataflow Job starts to execute, and shardingstrategy parameter is  " + shardingContext
-            .getShardingParameter());
-        return null;
+        Trigger trigger = newTrigger()
+                .forJob(job.getKey())
+                .startNow()
+                .withSchedule(CronScheduleBuilder.cronSchedule(this.cron))
+                .build();
+        schedulerInitialize.getScheduler().scheduleJob(job, trigger);
     }
 
-    /**
-     * 处理数据.
-     *
-     * @param shardingContext 分片上下文
-     * @param data 待处理数据集合
-     */
-    @Override
-    public void processData(ShardingContext shardingContext, List data) {
-
-    }
 }
+```
+Quartz tables script, quartz_tables_mysql_innodb.sql
+```mysql-sql
+#
+# In your Quartz properties file, you'll need to set
+# org.quartz.jobStore.driverDelegateClass = org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+#
+#
+# By: Ron Cordell - roncordell
+#  I didn't see this anywhere, so I thought I'd post it here. This is the script from Quartz to create the tables in a MySQL database, modified to use INNODB instead of MYISAM.
+
+DROP TABLE IF EXISTS QRTZ_FIRED_TRIGGERS;
+DROP TABLE IF EXISTS QRTZ_PAUSED_TRIGGER_GRPS;
+DROP TABLE IF EXISTS QRTZ_SCHEDULER_STATE;
+DROP TABLE IF EXISTS QRTZ_LOCKS;
+DROP TABLE IF EXISTS QRTZ_SIMPLE_TRIGGERS;
+DROP TABLE IF EXISTS QRTZ_SIMPROP_TRIGGERS;
+DROP TABLE IF EXISTS QRTZ_CRON_TRIGGERS;
+DROP TABLE IF EXISTS QRTZ_BLOB_TRIGGERS;
+DROP TABLE IF EXISTS QRTZ_TRIGGERS;
+DROP TABLE IF EXISTS QRTZ_JOB_DETAILS;
+DROP TABLE IF EXISTS QRTZ_CALENDARS;
+
+CREATE TABLE QRTZ_JOB_DETAILS(
+SCHED_NAME VARCHAR(120) NOT NULL,
+JOB_NAME VARCHAR(190) NOT NULL,
+JOB_GROUP VARCHAR(190) NOT NULL,
+DESCRIPTION VARCHAR(250) NULL,
+JOB_CLASS_NAME VARCHAR(250) NOT NULL,
+IS_DURABLE VARCHAR(1) NOT NULL,
+IS_NONCONCURRENT VARCHAR(1) NOT NULL,
+IS_UPDATE_DATA VARCHAR(1) NOT NULL,
+REQUESTS_RECOVERY VARCHAR(1) NOT NULL,
+JOB_DATA BLOB NULL,
+PRIMARY KEY (SCHED_NAME,JOB_NAME,JOB_GROUP))
+ENGINE=InnoDB;
+
+CREATE TABLE QRTZ_TRIGGERS (
+SCHED_NAME VARCHAR(120) NOT NULL,
+TRIGGER_NAME VARCHAR(190) NOT NULL,
+TRIGGER_GROUP VARCHAR(190) NOT NULL,
+JOB_NAME VARCHAR(190) NOT NULL,
+JOB_GROUP VARCHAR(190) NOT NULL,
+DESCRIPTION VARCHAR(250) NULL,
+NEXT_FIRE_TIME BIGINT(13) NULL,
+PREV_FIRE_TIME BIGINT(13) NULL,
+PRIORITY INTEGER NULL,
+TRIGGER_STATE VARCHAR(16) NOT NULL,
+TRIGGER_TYPE VARCHAR(8) NOT NULL,
+START_TIME BIGINT(13) NOT NULL,
+END_TIME BIGINT(13) NULL,
+CALENDAR_NAME VARCHAR(190) NULL,
+MISFIRE_INSTR SMALLINT(2) NULL,
+JOB_DATA BLOB NULL,
+PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
+FOREIGN KEY (SCHED_NAME,JOB_NAME,JOB_GROUP)
+REFERENCES QRTZ_JOB_DETAILS(SCHED_NAME,JOB_NAME,JOB_GROUP))
+ENGINE=InnoDB;
+
+CREATE TABLE QRTZ_SIMPLE_TRIGGERS (
+SCHED_NAME VARCHAR(120) NOT NULL,
+TRIGGER_NAME VARCHAR(190) NOT NULL,
+TRIGGER_GROUP VARCHAR(190) NOT NULL,
+REPEAT_COUNT BIGINT(7) NOT NULL,
+REPEAT_INTERVAL BIGINT(12) NOT NULL,
+TIMES_TRIGGERED BIGINT(10) NOT NULL,
+PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
+FOREIGN KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
+REFERENCES QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP))
+ENGINE=InnoDB;
+
+CREATE TABLE QRTZ_CRON_TRIGGERS (
+SCHED_NAME VARCHAR(120) NOT NULL,
+TRIGGER_NAME VARCHAR(190) NOT NULL,
+TRIGGER_GROUP VARCHAR(190) NOT NULL,
+CRON_EXPRESSION VARCHAR(120) NOT NULL,
+TIME_ZONE_ID VARCHAR(80),
+PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
+FOREIGN KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
+REFERENCES QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP))
+ENGINE=InnoDB;
+
+CREATE TABLE QRTZ_SIMPROP_TRIGGERS
+  (
+    SCHED_NAME VARCHAR(120) NOT NULL,
+    TRIGGER_NAME VARCHAR(190) NOT NULL,
+    TRIGGER_GROUP VARCHAR(190) NOT NULL,
+    STR_PROP_1 VARCHAR(512) NULL,
+    STR_PROP_2 VARCHAR(512) NULL,
+    STR_PROP_3 VARCHAR(512) NULL,
+    INT_PROP_1 INT NULL,
+    INT_PROP_2 INT NULL,
+    LONG_PROP_1 BIGINT NULL,
+    LONG_PROP_2 BIGINT NULL,
+    DEC_PROP_1 NUMERIC(13,4) NULL,
+    DEC_PROP_2 NUMERIC(13,4) NULL,
+    BOOL_PROP_1 VARCHAR(1) NULL,
+    BOOL_PROP_2 VARCHAR(1) NULL,
+    PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
+    FOREIGN KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
+    REFERENCES QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP))
+ENGINE=InnoDB;
+
+CREATE TABLE QRTZ_BLOB_TRIGGERS (
+SCHED_NAME VARCHAR(120) NOT NULL,
+TRIGGER_NAME VARCHAR(190) NOT NULL,
+TRIGGER_GROUP VARCHAR(190) NOT NULL,
+BLOB_DATA BLOB NULL,
+PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
+INDEX (SCHED_NAME,TRIGGER_NAME, TRIGGER_GROUP),
+FOREIGN KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
+REFERENCES QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP))
+ENGINE=InnoDB;
+
+CREATE TABLE QRTZ_CALENDARS (
+SCHED_NAME VARCHAR(120) NOT NULL,
+CALENDAR_NAME VARCHAR(190) NOT NULL,
+CALENDAR BLOB NOT NULL,
+PRIMARY KEY (SCHED_NAME,CALENDAR_NAME))
+ENGINE=InnoDB;
+
+CREATE TABLE QRTZ_PAUSED_TRIGGER_GRPS (
+SCHED_NAME VARCHAR(120) NOT NULL,
+TRIGGER_GROUP VARCHAR(190) NOT NULL,
+PRIMARY KEY (SCHED_NAME,TRIGGER_GROUP))
+ENGINE=InnoDB;
+
+CREATE TABLE QRTZ_FIRED_TRIGGERS (
+SCHED_NAME VARCHAR(120) NOT NULL,
+ENTRY_ID VARCHAR(95) NOT NULL,
+TRIGGER_NAME VARCHAR(190) NOT NULL,
+TRIGGER_GROUP VARCHAR(190) NOT NULL,
+INSTANCE_NAME VARCHAR(190) NOT NULL,
+FIRED_TIME BIGINT(13) NOT NULL,
+SCHED_TIME BIGINT(13) NOT NULL,
+PRIORITY INTEGER NOT NULL,
+STATE VARCHAR(16) NOT NULL,
+JOB_NAME VARCHAR(190) NULL,
+JOB_GROUP VARCHAR(190) NULL,
+IS_NONCONCURRENT VARCHAR(1) NULL,
+REQUESTS_RECOVERY VARCHAR(1) NULL,
+PRIMARY KEY (SCHED_NAME,ENTRY_ID))
+ENGINE=InnoDB;
+
+CREATE TABLE QRTZ_SCHEDULER_STATE (
+SCHED_NAME VARCHAR(120) NOT NULL,
+INSTANCE_NAME VARCHAR(190) NOT NULL,
+LAST_CHECKIN_TIME BIGINT(13) NOT NULL,
+CHECKIN_INTERVAL BIGINT(13) NOT NULL,
+PRIMARY KEY (SCHED_NAME,INSTANCE_NAME))
+ENGINE=InnoDB;
+
+CREATE TABLE QRTZ_LOCKS (
+SCHED_NAME VARCHAR(120) NOT NULL,
+LOCK_NAME VARCHAR(40) NOT NULL,
+PRIMARY KEY (SCHED_NAME,LOCK_NAME))
+ENGINE=InnoDB;
+
+CREATE INDEX IDX_QRTZ_J_REQ_RECOVERY ON QRTZ_JOB_DETAILS(SCHED_NAME,REQUESTS_RECOVERY);
+CREATE INDEX IDX_QRTZ_J_GRP ON QRTZ_JOB_DETAILS(SCHED_NAME,JOB_GROUP);
+
+CREATE INDEX IDX_QRTZ_T_J ON QRTZ_TRIGGERS(SCHED_NAME,JOB_NAME,JOB_GROUP);
+CREATE INDEX IDX_QRTZ_T_JG ON QRTZ_TRIGGERS(SCHED_NAME,JOB_GROUP);
+CREATE INDEX IDX_QRTZ_T_C ON QRTZ_TRIGGERS(SCHED_NAME,CALENDAR_NAME);
+CREATE INDEX IDX_QRTZ_T_G ON QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
+CREATE INDEX IDX_QRTZ_T_STATE ON QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_STATE);
+CREATE INDEX IDX_QRTZ_T_N_STATE ON QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP,TRIGGER_STATE);
+CREATE INDEX IDX_QRTZ_T_N_G_STATE ON QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_GROUP,TRIGGER_STATE);
+CREATE INDEX IDX_QRTZ_T_NEXT_FIRE_TIME ON QRTZ_TRIGGERS(SCHED_NAME,NEXT_FIRE_TIME);
+CREATE INDEX IDX_QRTZ_T_NFT_ST ON QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_STATE,NEXT_FIRE_TIME);
+CREATE INDEX IDX_QRTZ_T_NFT_MISFIRE ON QRTZ_TRIGGERS(SCHED_NAME,MISFIRE_INSTR,NEXT_FIRE_TIME);
+CREATE INDEX IDX_QRTZ_T_NFT_ST_MISFIRE ON QRTZ_TRIGGERS(SCHED_NAME,MISFIRE_INSTR,NEXT_FIRE_TIME,TRIGGER_STATE);
+CREATE INDEX IDX_QRTZ_T_NFT_ST_MISFIRE_GRP ON QRTZ_TRIGGERS(SCHED_NAME,MISFIRE_INSTR,NEXT_FIRE_TIME,TRIGGER_GROUP,TRIGGER_STATE);
+
+CREATE INDEX IDX_QRTZ_FT_TRIG_INST_NAME ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,INSTANCE_NAME);
+CREATE INDEX IDX_QRTZ_FT_INST_JOB_REQ_RCVRY ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,INSTANCE_NAME,REQUESTS_RECOVERY);
+CREATE INDEX IDX_QRTZ_FT_J_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_NAME,JOB_GROUP);
+CREATE INDEX IDX_QRTZ_FT_JG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_GROUP);
+CREATE INDEX IDX_QRTZ_FT_T_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP);
+CREATE INDEX IDX_QRTZ_FT_TG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
+
+commit;
 ```
