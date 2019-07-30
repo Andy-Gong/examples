@@ -1,5 +1,5 @@
 # Quartz Cluster example
-In this example, it initializes and registers the elastic job via spring.
+In this example, it initializes scheduler instance in cluster mode.
 
 application.properties defines the scheduler properties.
 ```properties
