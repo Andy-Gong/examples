@@ -25,6 +25,9 @@
 Clustering currently only works with JDBC-Jobstore, and each node of the cluster share the same database.
 Load-balancing occurs automatically, each node of the cluster firing jobs as quickly as it can. When a trigger's firing time occurs, the first node to acquire it with a lock on it. For example, if the job has a repeating trigger every 10 seconds, at 1:00:00 one node runs the job, and at 1:00:10, one node runs the job again, the second node maybe same with first one or not.
 Fail-over occurs when one of the nodes fails, the other nodes detect the condition and identify the jobs from the database that were in progress within the failed node and fire them.
+##### Failover
+![image](https://github.com/Andy-Gong/examples/blob/master/z-images/failover.png)
+ClusterManager is responsible for managing the cluster failover. Each instance will send health check to table: SCHEDULER_STATE per specify interval. If one instance doesn't send health check, other instances will acquire the lock:STATE_ACCESS firstly, then recover the failed triggers of failed instance.
 ## EventBus
 ### [eventbus-example](https://github.com/Andy-Gong/examples/tree/master/eventbus-example)
 ## Distributed lock
