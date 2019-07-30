@@ -5,9 +5,10 @@
 ### [sharding-multi-tenant-datasource-example](https://github.com/Andy-Gong/examples/tree/master/sharding-multi-tenant-datasource-example)
 ### [sharding-multi-tenant-provider-example](https://github.com/Andy-Gong/examples/tree/master/sharding-multi-tenant-provider-example)
 ## Scheduled Job
-### [scheduled-elastic-job-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-elastic-job-example)
-### [scheduled-elastic-job-spring-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-elastic-job-spring-example)
-### [scheduled-quartz-ram-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-quartz-ram-example)
+### Elastic Job
+#### [scheduled-elastic-job-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-elastic-job-example)
+#### [scheduled-elastic-job-spring-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-elastic-job-spring-example)
+### Quartz
 #### Quartz Architecture (Single scheduler)
 ![image](https://github.com/Andy-Gong/examples/blob/master/z-images/quartz_architecture.png)
 #### Analyze source code.
@@ -28,6 +29,8 @@ Fail-over occurs when one of the nodes fails, the other nodes detect the conditi
 ##### Failover
 ![image](https://github.com/Andy-Gong/examples/blob/master/z-images/failover.png)
 ClusterManager is responsible for managing the cluster failover. Each instance will send health check to table: SCHEDULER_STATE per specify interval. If one instance doesn't send health check, other instances will acquire the lock:STATE_ACCESS firstly, then recover the failed triggers of failed instance.
+#### [scheduled-quartz-ram-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-quartz-ram-example)
+#### [scheduled-quartz-JDBC-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-quartz-JDBC-example)
 ## EventBus
 ### [eventbus-example](https://github.com/Andy-Gong/examples/tree/master/eventbus-example)
 ## Distributed lock
