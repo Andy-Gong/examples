@@ -21,6 +21,7 @@
         <module>scheduled-elastic-job-spring-example</module>
         <module>scheduled-quartz-JDBC-example</module>
         <module>scheduled-quartz-ram-example</module>
+        <module>message-amq-topic-example</module>
         <module>eventbus-example</module>
         <module>sharding-jdbc-sharding-mybatis-example</module>
         <module>sharding-jdbc-master-slave-jpa-example</module>

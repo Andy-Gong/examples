@@ -10,7 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
@@ -35,7 +34,10 @@ public class SchedulerInitialize {
     @PostConstruct
     public void scheduler() throws SchedulerException {
         Properties properties = new Properties();
-        properties.put(StdSchedulerFactory.PROP_SCHED_INSTANCE_NAME, this.instanceName + UUID.randomUUID().toString());
+        /**
+         * If you are using the clustering features, you must use the same name for every instance in the cluster that is ‘logically’ the same Scheduler.
+         */
+        properties.put(StdSchedulerFactory.PROP_SCHED_INSTANCE_NAME, this.instanceName);
         properties.put(StdSchedulerFactory.PROP_JOB_STORE_CLASS, this.jobStoreClass);
         properties.put(StdSchedulerFactory.PROP_TABLE_PREFIX, this.tablePrefix);
         properties.put("org.quartz.threadPool.threadCount", String.valueOf(this.threadCount));
