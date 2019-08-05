@@ -16,6 +16,7 @@ public class MyMessageListener implements javax.jms.MessageListener {
     public void onMessage(Message message) {
         try {
             System.out.println(this.consumerName + "::::::::" + ((TextMessage) message).getText());
+            message.acknowledge();
         } catch (JMSException e) {
             e.printStackTrace();
         }
