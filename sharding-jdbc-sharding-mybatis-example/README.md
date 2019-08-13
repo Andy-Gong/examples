@@ -7,7 +7,7 @@ Sharding JDBC supports to shard the database and tables according sharding rules
 The sharding process as below image.
 ![image](https://github.com/Andy-Gong/examples/blob/master/sharding-jdbc-sharding-mybatis-example/sharding-workflow.jpg)
 
-ShardingDataSourceFactory: generating the ShardingDataSource according to yaml file.
+### ShardingDataSourceFactory: generating the ShardingDataSource according to yaml file.
 
 ```java
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -30,7 +30,8 @@ public final class ShardingDataSourceFactory {
 }
 ```
 
-ShardingDataSource defines all sharding rule，and ShardingContext includes the ShardingRules, execute engine，route info which will be used when creating the ShardingConnection.
+### ShardingDataSource 
+It defines all sharding rule，and ShardingContext includes the ShardingRules, execute engine，route info which will be used when creating the ShardingConnection.
 ShardingDataSource includes all data sources in field: Map<String,DataSource>.
 ```java
 public class ShardingDataSource extends AbstractDataSourceAdapter {
@@ -55,7 +56,8 @@ public class ShardingDataSource extends AbstractDataSourceAdapter {
     }
 ```
 
-ShardingConnection supports sharding database and tables connection, and it creates ShardingPreparedStatement. It is not a real connection, but it caches a lot of connections, if the cache can't has the connection of the table, it will create a new one and put it into the cache.
+### ShardingConnection
+It supports sharding database and tables connection, and it creates ShardingPreparedStatement. It is not a real connection, but it caches a lot of connections, if the cache can't has the connection of the table, it will create a new one and put it into the cache.
 
 ```java
 @Getter
@@ -79,7 +81,7 @@ public final class ShardingConnection extends AbstractConnectionAdapter {
 }
 ```
 
-ShardingPreparedStatement is the key class of Sharding JDBC, it has 3 steps：
+### ShardingPreparedStatement is the key class of Sharding JDBC, it has 3 steps：
 1. SQL route, generate the SQLRouteResult
 
 Step 1：
