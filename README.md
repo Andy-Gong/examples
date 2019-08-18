@@ -56,6 +56,8 @@ Queues is straightforward—messages are basically stored in first in, first out
 #### Topic
 Topic, one message can be consumed by multiple consumers. For durable subscribers to a topic, a durable subscriber object in the store maintains a pointer to its next stored message and dispatches a copy of it to its consumer as shown in below figure. The message store is implemented in this manner because each durable subscriber could be consuming messages at different rates or they may not all be running at the same time. Also, because every message can potentially have many consumers, a message can’t be deleted from the store until it’s been successfully delivered to every interested durable subscriber.
 
+![image](https://github.com/Andy-Gong/examples/blob/master/z-images/AMQ_Topic.png)
+
 #### KahaDB
 From ActiveMQ5.4, KahaDB is default storage of AMQ. It has three parts: data logs, BTree indexes and cache.
 data logs is the messages of broker. The Journal consists of a rolling log of messages and commands stored in data files of a certern length.
@@ -69,7 +71,7 @@ The directory structure of KahaDB
 ![image](https://github.com/Andy-Gong/examples/blob/master/z-images/AMQ_KahaDB_directory.png)
 
 #### Consumer
-AMQ consumer source code analyze. It mainly has three parts: read message via transport, the memory queue to store pooled messages and dispatcher to dispatch message to consumers which consums the messages.
+Consumer code mainly has three parts: read message via transport, the memory queue to store pooled messages and dispatcher to dispatch message to consumers which consums the messages.
 The queue and topic consumers are same process flow.
 
 ![image](https://github.com/Andy-Gong/examples/blob/master/z-images/AMQ_consumer_workflow.png)
