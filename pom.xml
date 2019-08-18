@@ -22,6 +22,7 @@
         <module>scheduled-quartz-JDBC-example</module>
         <module>scheduled-quartz-ram-example</module>
         <module>message-amq-topic-example</module>
+        <module>message-amq-queue-example</module>
         <module>eventbus-example</module>
         <module>sharding-jdbc-sharding-mybatis-example</module>
         <module>sharding-jdbc-master-slave-jpa-example</module>
@@ -141,7 +142,7 @@
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-jpa</artifactId>
-                <version>2.1.5.RELEASE</version>
+                <version>2.1.8.RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
