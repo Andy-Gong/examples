@@ -44,8 +44,10 @@ Fail-over occurs when one of the nodes fails, the other nodes detect the conditi
 ![image](https://github.com/Andy-Gong/examples/blob/master/z-images/failover.png)
 
 ClusterManager is responsible for managing the cluster failover. Each instance will send health check to table: SCHEDULER_STATE per specify interval. If one instance doesn't send health check, other instances will acquire the lock:STATE_ACCESS firstly, then recover the failed triggers of failed instance.
-#### [scheduled-quartz-ram-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-quartz-ram-example)
-#### [scheduled-quartz-JDBC-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-quartz-JDBC-example)
+#### Examples
+##### [scheduled-quartz-ram-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-quartz-ram-example)
+##### [scheduled-quartz-JDBC-example](https://github.com/Andy-Gong/examples/tree/master/scheduled-quartz-JDBC-example)
+
 ## Message Middleware
 ### ActiveMQ
 #### Queue
@@ -87,6 +89,11 @@ Consumer code mainly has three parts: read message via transport, the memory que
 The queue and topic consumers are same process flow.
 
 ![image](https://github.com/Andy-Gong/examples/blob/master/z-images/AMQ_consumer_workflow.png)
+
+#### Examples
+##### [message-amq-topic-example](https://github.com/Andy-Gong/examples/tree/master/message-amq-topic-example)
+##### [message-amq-queue-example](https://github.com/Andy-Gong/examples/tree/master/message-amq-queue-example)
+
 ## EventBus
 ### [eventbus-example](https://github.com/Andy-Gong/examples/tree/master/eventbus-example)
 ## Distributed lock
