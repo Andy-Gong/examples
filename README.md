@@ -60,15 +60,27 @@ Topic, one message can be consumed by multiple consumers. For durable subscriber
 
 #### KahaDB
 From ActiveMQ5.4, KahaDB is default storage of AMQ. It has three parts: data logs, BTree indexes and cache.
-data logs is the messages of broker. The Journal consists of a rolling log of messages and commands stored in data files of a certern length.
-cache holds messages for fast retrieval in memory after they have bean written to the journal. It will periodically update the reference store with its current message ids and location of the messsages in the journal.
-BTree indexes ONLY uses one index file for all its destinations. All index file updates also recorded in a redo log. This ensures that the indexes can be brought back in a consistent state. 
+##### data logs 
+It is the messages of broker. The Journal consists of a rolling log of messages and commands stored in data files of a certern length.
+##### cache 
+Itholds messages for fast retrieval in memory after they have bean written to the journal. It will periodically update the reference store with its current message ids and location of the messsages in the journal.
+##### BTree indexes
+It ONLY uses one index file for all its destinations. All index file updates also recorded in a redo log. This ensures that the indexes can be brought back in a consistent state. 
 
 ![image](https://github.com/Andy-Gong/examples/blob/master/z-images/AMQ_KahaDB.png)
 
 The directory structure of KahaDB
- 
+
 ![image](https://github.com/Andy-Gong/examples/blob/master/z-images/AMQ_KahaDB_directory.png)
+
+* db-x.log
+It stores the journal data files.   
+* db.data
+It is BTree indexes, records all the indexes of desctinations.
+* db.redo
+All index file updates are also recorded in the redo log. This ensures that the indexes can be brought back in a consistent state when broker is shutdown uncleanly.
+* lock
+It ensures ONLY one broker can access the data at give anytime, it used in hot stand-by status where there are more than one broker with same name.
 
 #### Consumer
 Consumer code mainly has three parts: read message via transport, the memory queue to store pooled messages and dispatcher to dispatch message to consumers which consums the messages.
