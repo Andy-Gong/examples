@@ -49,7 +49,7 @@ ClusterManager is responsible for managing the cluster failover. Each instance w
 ## Message Middleware
 ### ActiveMQ
 #### Queue
-Queues is straightforward—messages are basically stored in first in, first out order (FIFO). See below figure for a depiction of this. One message is dispatched to ONLY a single consumer at a time. Only when that message has been consumed and acknowledged it can be deleted from the broker’s message store. If one consumer fails to ACK the message, it will be consumed by other consumer.
+Queues is straightforward—messages are basically stored in first in, first out order (FIFO). See below figure for a depiction of this. One message is dispatched to ONLY a single consumer at a time. Only when that message has been consumed and acknowledged it can be deleted from the broker’s message store. If one consumer fails to ACK the message, it will be consumed by other consumer. A queue can be consumed by multiple consumers, but one message ONLY can be consumed by one of them.
 
 ![image](https://github.com/Andy-Gong/examples/blob/master/z-images/AMQ_Queue.png)
 

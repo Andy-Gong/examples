@@ -1,14 +1,12 @@
 package amq.consumer;
 
-import javax.annotation.PostConstruct;
-import javax.jms.JMSException;
-import javax.jms.MessageConsumer;
-import javax.jms.Topic;
-
-import amq.AMQConfiguration;
-import amq.SessionFactory;
+import amq.config.AMQConfiguration;
+import amq.config.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.jms.Topic;
 
 @Component
 public class Consumer {
@@ -17,16 +15,21 @@ public class Consumer {
     private AMQConfiguration amqConfiguration;
     @Autowired
     private SessionFactory sessionFactory;
-    //    private MessageConsumer messageConsumer;
 
     @PostConstruct
-    public void initConsumer() throws JMSException {
-        Topic topic = sessionFactory.getConsumerSession().createTopic(amqConfiguration.getTopic());
-        for (int i = 0; i < 3; i++) {
-            //consumer selector is 'JMSType='1''
-            MessageConsumer messageConsumer = sessionFactory.getConsumerSession()
-                .createDurableSubscriber(topic, "consumer" + i, "JMSType = '1'", true);
-            messageConsumer.setMessageListener(new MyMessageListener("consumer" + i));
-        }
+    public void initConsumer() {
+        amqConfiguration.getTopic().forEach(topicStr -> {
+            try {
+                Topic topic = sessionFactory.getConsumerSession().createTopic(topicStr);
+                for (int i = 0; i < amqConfiguration.getConsumerCount(); i++) {
+                    sessionFactory.getConsumerSession()
+                            .createDurableSubscriber(topic, "consumer_topic", "JMSType = '1'", true)
+                            .setMessageListener(new MyMessageListener(i + " consumer, and consumed topic: " + topicStr));
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

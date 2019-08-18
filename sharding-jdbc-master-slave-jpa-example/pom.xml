@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>andy</groupId>
-    <artifactId>sharding-jdbc-master-slave-example</artifactId>
+    <artifactId>sharding-jdbc-master-slave-jpa-example</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>

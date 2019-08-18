@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>andy</groupId>
-    <artifactId>message-amq-p2p-example</artifactId>
+    <artifactId>message-amq-topic-example</artifactId>
     <version>1.0-SNAPSHOT</version>
     <dependencies>
         <dependency>
