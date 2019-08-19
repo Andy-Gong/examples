@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.jms.Queue;
+
 
 @Component
 public class Producer<T> {
@@ -14,9 +16,11 @@ public class Producer<T> {
 
     @Autowired
     private JmsTemplate jmsTemplate;
+    @Autowired
+    private Queue queue;
 
     public void send(String myMessage) {
         log.info("sending with convertAndSend() to queue <" + myMessage + ">");
-        jmsTemplate.convertAndSend("topic", myMessage);
+        jmsTemplate.convertAndSend(queue, myMessage);
     }
 }
