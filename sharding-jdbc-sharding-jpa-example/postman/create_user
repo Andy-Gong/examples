@@ -1,0 +1,8 @@
+curl --location --request POST 'http://localhost:9080/users' \
+--header 'tenantId: 2' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "tenantId": 2,
+    "account": "beijing",
+    "userName": "test"
+}'

@@ -1,0 +1,6 @@
+curl --location --request PUT 'http://localhost:9080/users/418399328348930049' \
+--header 'tenantId: 2' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "userName": "111111"
+}'

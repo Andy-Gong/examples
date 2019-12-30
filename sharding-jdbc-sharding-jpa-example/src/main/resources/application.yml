@@ -1,0 +1,37 @@
+server:
+  port: 9080
+
+#  here we defines tow databases: ds0 and ds1, and tow tables: user and order
+#  database is sharding by tenant id
+#  table is sharding by id,
+#        when id is odd, storing data into table_1,
+#        when id is even, storing data into table_0
+sharding:
+  jdbc:
+    datasource:
+      names: ds0,ds1
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbcUrl: jdbc:mysql://localhost:3306/ds0
+        username: root
+        password:
+      ds1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbcUrl: jdbc:mysql://localhost:3306/ds1
+        username: root
+        password:
+    config:
+      sharding:
+        props:
+          sql.show: true
+        tables:
+          user:
+            actual-data-nodes: ds${0..1}.user_${0..1}
+            database-strategy:
+              hint:
+                algorithmClassName: sharding.jdbc.example.shardingstrategy.TenantIdHintSharding
+            table-strategy:
+              hint:
+                algorithmClassName: sharding.jdbc.example.shardingstrategy.TenantIdHintTableSharding
