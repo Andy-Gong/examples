@@ -16,6 +16,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
+        <module>algorithm-example</module>
         <module>curator-example</module>
         <module>scheduled-elastic-job-example</module>
         <module>scheduled-elastic-job-spring-example</module>
@@ -25,6 +26,7 @@
         <module>message-amq-topic-spring-boot-example</module>
         <module>message-amq-queue-example</module>
         <module>eventbus-example</module>
+        <module>hystrix-example</module>
         <module>sharding-jdbc-sharding-mybatis-example</module>
         <module>sharding-jdbc-sharding-jpa-example</module>
         <module>sharding-jdbc-master-slave-jpa-example</module>
