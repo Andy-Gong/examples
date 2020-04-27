@@ -19,28 +19,26 @@ public class PascalTriangle {
 
     public List<List<Integer>> generate(int numRows) {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
-        List<Integer> preLayer = new ArrayList<Integer>();
-        for (int i = 1; i <= numRows; i++) {
-            List<Integer> layer = buildLayer(preLayer, i);
-            result.add(layer);
-            preLayer = layer;
-        }
+        buildLayer(result, 1, numRows);
         return result;
     }
 
-    public List<Integer> buildLayer(List<Integer> preLayer, int currentLayer) {
+    public void buildLayer(List<List<Integer>> layers, int currentLayer, int totalLayer) {
+        if (currentLayer > totalLayer) {
+            return;
+        }
         if (currentLayer == 1) {
-            return Arrays.asList(1);
+            layers.add(Arrays.asList(1));
+        } else {
+            List<Integer> values = new ArrayList<Integer>(currentLayer);
+            values.add(1);
+            List<Integer> preLayer = layers.get(layers.size() - 1);
+            for (int i = 1; i < currentLayer - 1; i++) {
+                values.add(preLayer.get(i - 1) + preLayer.get(i));
+            }
+            values.add(1);
+            layers.add(values);
         }
-        if (currentLayer == 2) {
-            return Arrays.asList(1, 1);
-        }
-        List<Integer> values = new ArrayList<Integer>(currentLayer);
-        values.add(1);
-        for (int i = 1; i < currentLayer - 1; i++) {
-            values.add(preLayer.get(i - 1) + preLayer.get(i));
-        }
-        values.add(1);
-        return values;
+        buildLayer(layers, currentLayer + 1, totalLayer);
     }
 }
