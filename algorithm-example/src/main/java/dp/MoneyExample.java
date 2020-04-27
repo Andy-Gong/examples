@@ -1,4 +1,4 @@
-package dynamic;
+package dp;
 
 /**
  * 找零案例，有一组不同额度的钱，给定一个数值，求换钱有多少种方法.

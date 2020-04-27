@@ -1,6 +1,7 @@
 package backtrack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class Permutations4String {
 
 
     public String[] permutation(String s) {
-        List<String> result = new ArrayList<String>();
+        Map<String, Integer> result = new HashMap<String, Integer>();
         Map<Character, Integer> countMap = new HashMap<Character, Integer>();
         char[] selectable = s.toCharArray();
         for (int i = 0; i < selectable.length; i++) {
@@ -37,40 +38,82 @@ public class Permutations4String {
                 countMap.put(selectable[i], 1);
             }
         }
-        bt(new ArrayList<Character>(), s.toCharArray(), countMap, result);
+        Arrays.sort(selectable);
+        bt(new ArrayList<Character>(), selectable, countMap, result);
         String[] strings = new String[result.size()];
-        for (int i = 0; i < result.size(); i++) {
-            strings[i] = result.get(i);
+        int i = 0;
+        for (String each : result.keySet()) {
+            strings[i] = each;
+            i++;
         }
         return strings;
     }
 
-    public void bt(List<Character> selected, char[] selectable, Map<Character, Integer> countMap, List<String> result) {
+    public void bt(List<Character> selected, char[] selectable, Map<Character, Integer> countMap,
+        Map<String, Integer> result) {
         if (selected.size() == selectable.length) {
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < selected.size(); i++) {
                 stringBuilder.append(selected.get(i));
             }
-            if (!result.contains(stringBuilder.toString())) {
-                result.add(stringBuilder.toString());
+            if (!result.containsKey(stringBuilder.toString())) {
+                result.put(stringBuilder.toString(), 1);
             }
             return;
         }
         for (int i = 0; i < selectable.length; i++) {
-            if (selected.contains(selectable[i])) {
+            Character valueOfI = selectable[i];
+            if (selected.contains(valueOfI)) {
+                if (countMap.get(valueOfI) == 1) {
+                    continue;
+                }
                 int count = 0;
                 for (int j = 0; j < selected.size(); j++) {
-                    if (selected.get(j).equals(selectable[i])) {
+                    if (selected.get(j).equals(valueOfI)) {
                         count++;
                     }
                 }
-                if (count >= countMap.get(selectable[i])) {
+                if (count >= countMap.get(valueOfI)) {
                     continue;
                 }
             }
-            selected.add(selectable[i]);
+            selected.add(valueOfI);
             bt(selected, selectable, countMap, result);
-            selected.remove(Character.valueOf(selectable[i]));
+            selected.remove(selected.size() - 1);
         }
     }
+
+    public static void main(String[] args) {
+        String input = "vpvptjzh";
+        Permutations4String permutations4String = new Permutations4String();
+        String[] strings = permutations4String.permutation(input);
+        System.out.println(strings.length);
+                System.out.println(Arrays.asList(strings));
+        //        String[] expected = new String[]{"fkxzxx", "fkxxzx", "fkxxxz", "fkzxxx", "fxkxzx", "fxkxxz", "fxkzxx", "fxzkxx",
+        //            "fxzxkx", "fxzxxk", "fxxkxz", "fxxkzx", "fxxzkx", "fxxzxk", "fxxxkz", "fxxxzk", "fzkxxx", "fzxkxx",
+        //            "fzxxkx", "fzxxxk", "kfxzxx", "kfxxzx", "kfxxxz", "kfzxxx", "kxfxzx", "kxfxxz", "kxfzxx", "kxzfxx",
+        //            "kxzxfx", "kxzxxf", "kxxfxz", "kxxfzx", "kxxzfx", "kxxzxf", "kxxxfz", "kxxxzf", "kzfxxx", "kzxfxx",
+        //            "kzxxfx", "kzxxxf", "xfkxzx", "xfkxxz", "xfkzxx", "xfxkxz", "xfxkzx", "xfxzkx", "xfxzxk", "xfxxkz",
+        //            "xfxxzk", "xfzkxx", "xfzxkx", "xfzxxk", "xkfxzx", "xkfxxz", "xkfzxx", "xkxfxz", "xkxfzx", "xkxzfx",
+        //            "xkxzxf", "xkxxfz", "xkxxzf", "xkzfxx", "xkzxfx", "xkzxxf", "xzfkxx", "xzfxkx", "xzfxxk", "xzkfxx",
+        //            "xzkxfx", "xzkxxf", "xzxfkx", "xzxfxk", "xzxkfx", "xzxkxf", "xzxxfk", "xzxxkf", "xxfkxz", "xxfkzx",
+        //            "xxfxkz", "xxfxzk", "xxfzkx", "xxfzxk", "xxkfxz", "xxkfzx", "xxkxfz", "xxkxzf", "xxkzfx", "xxkzxf",
+        //            "xxzfkx", "xxzfxk", "xxzkfx", "xxzkxf", "xxzxfk", "xxzxkf", "xxxfkz", "xxxfzk", "xxxkfz", "xxxkzf",
+        //            "xxxzfk", "xxxzkf", "zfkxxx", "zfxkxx", "zfxxkx", "zfxxxk", "zkfxxx", "zkxfxx", "zkxxfx", "zkxxxf",
+        //            "zxfkxx", "zxfxkx", "zxfxxk", "zxkfxx", "zxkxfx", "zxkxxf", "zxxfkx", "zxxfxk", "zxxkfx", "zxxkxf",
+        //            "zxxxfk", "zxxxkf"};
+        //        String[] result = new String[]{"kzfxxx", "kzxfxx", "kzxxfx", "kzxxxf", "kfzxxx", "kfxzxx", "kfxxzx", "kfxxxz",
+        //            "kxzfxx", "kxfzxx", "kxxzfx", "kxxfzx", "kxxxzf", "kxxxfz", "zkfxxx", "zkxfxx", "zkxxfx", "zkxxxf",
+        //            "zfkxxx", "zfxkxx", "zfxxkx", "zfxxxk", "zxkfxx", "zxfkxx", "zxxkfx", "zxxfkx", "zxxxkf", "zxxxfk",
+        //            "fkzxxx", "fkxzxx", "fkxxzx", "fkxxxz", "fzkxxx", "fzxkxx", "fzxxkx", "fzxxxk", "fxkzxx", "fxzkxx",
+        //            "fxxkzx", "fxxzkx", "fxxxkz", "fxxxzk", "xkzfxx", "xzkfxx", "xfkzxx", "xxkzfx", "xxzkfx", "xxfkzx",
+        //            "xxxkzf", "xxxkfz", "xxxzkf", "xxxzfk", "xxxfkz", "xxxfzk"};
+        //
+        //        Arrays.sort(expected);
+        //        Arrays.sort(result);
+        //        System.out.println(Arrays.asList(expected));
+        //        System.out.println(Arrays.asList(result));
+    }
+
+
 }
