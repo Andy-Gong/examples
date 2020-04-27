@@ -56,36 +56,36 @@ public class HouseRobberIII {
             int right = dfs(root.right, false);
             return Math.max(left, right) + root.val;
         } else {
-            int trueTrue = dfs(root.right, true)+dfs(root.left, true);
-            int falseTrue = dfs(root.right, false)+dfs(root.left, true);
-            int trueFalse = dfs(root.right, true)+dfs(root.left, false);
-            int falseFalse = dfs(root.right, false)+dfs(root.left, false);
-            return Math.max(Math.max(trueTrue, falseTrue),Math.max(trueFalse,falseFalse));
+            int trueTrue = dfs(root.right, true) + dfs(root.left, true);
+            int falseTrue = dfs(root.right, false) + dfs(root.left, true);
+            int trueFalse = dfs(root.right, true) + dfs(root.left, false);
+            int falseFalse = dfs(root.right, false) + dfs(root.left, false);
+            return Math.max(Math.max(trueTrue, falseTrue), Math.max(trueFalse, falseFalse));
         }
     }
-//    public int rob(TreeNode root) {
-//        if (root == null) {
-//            return 0;
-//        }
-//        int includeRoot = dfs(root.left, true) + dfs(root.right, true);
-//        int excludeRoot = dfs(root.left, false) + dfs(root.right, false) + root.val;
-//        return Math.max(includeRoot, excludeRoot);
-//    }
-//
-//    public int dfs(TreeNode root, boolean include) {
-//        if (root == null) {
-//            return 0;
-//        }
-//        if (include) {
-//            int left = dfs(root.left, false);
-//            int right = dfs(root.right, false);
-//            return Math.max(left, right) + root.val;
-//        } else {
-//            int trueTrue = dfs(root.right, true)+dfs(root.left, true);
-//            int falseTrue = dfs(root.right, false)+dfs(root.left, true);
-//            int trueFalse = dfs(root.right, true)+dfs(root.left, false);
-//            int falseFalse = dfs(root.left, false)+dfs(root.right, false);
-//            return Math.max(Math.max(trueTrue, falseTrue),Math.max(trueFalse,falseFalse));
-//        }
-//    }
+    //    public int rob(TreeNode root) {
+    //        if (root == null) {
+    //            return 0;
+    //        }
+    //        int includeRoot = dfs(root.left, true) + dfs(root.right, true);
+    //        int excludeRoot = dfs(root.left, false) + dfs(root.right, false) + root.val;
+    //        return Math.max(includeRoot, excludeRoot);
+    //    }
+    //
+    //    public int dfs(TreeNode root, boolean include) {
+    //        if (root == null) {
+    //            return 0;
+    //        }
+    //        if (include) {
+    //            int left = dfs(root.left, false);
+    //            int right = dfs(root.right, false);
+    //            return Math.max(left, right) + root.val;
+    //        } else {
+    //            int trueTrue = dfs(root.right, true)+dfs(root.left, true);
+    //            int falseTrue = dfs(root.right, false)+dfs(root.left, true);
+    //            int trueFalse = dfs(root.right, true)+dfs(root.left, false);
+    //            int falseFalse = dfs(root.left, false)+dfs(root.right, false);
+    //            return Math.max(Math.max(trueTrue, falseTrue),Math.max(trueFalse,falseFalse));
+    //        }
+    //    }
 }
