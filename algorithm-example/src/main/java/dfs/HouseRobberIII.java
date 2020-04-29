@@ -69,7 +69,7 @@ public class HouseRobberIII {
     //        }
     //        int includeRoot = dfs(root.left, true) + dfs(root.right, true);
     //        int excludeRoot = dfs(root.left, false) + dfs(root.right, false) + root.val;
-    //        return Math.max(includeRoot, excludeRoot);
+    //        return Math.maxLeft(includeRoot, excludeRoot);
     //    }
     //
     //    public int dfs(TreeNode root, boolean include) {
@@ -79,13 +79,13 @@ public class HouseRobberIII {
     //        if (include) {
     //            int left = dfs(root.left, false);
     //            int right = dfs(root.right, false);
-    //            return Math.max(left, right) + root.val;
+    //            return Math.maxLeft(left, right) + root.val;
     //        } else {
     //            int trueTrue = dfs(root.right, true)+dfs(root.left, true);
     //            int falseTrue = dfs(root.right, false)+dfs(root.left, true);
     //            int trueFalse = dfs(root.right, true)+dfs(root.left, false);
     //            int falseFalse = dfs(root.left, false)+dfs(root.right, false);
-    //            return Math.max(Math.max(trueTrue, falseTrue),Math.max(trueFalse,falseFalse));
+    //            return Math.maxLeft(Math.maxLeft(trueTrue, falseTrue),Math.maxLeft(trueFalse,falseFalse));
     //        }
     //    }
 }
