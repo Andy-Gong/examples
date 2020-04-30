@@ -1,5 +1,8 @@
 package greedy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * There are 2N people a company is planning to interview. The cost of flying the i-th person to city A is costs[i][0], and the cost of flying the i-th person to city B is costs[i][1].
  *
@@ -23,7 +26,60 @@ package greedy;
  * link：https://leetcode-cn.com/problems/two-city-scheduling
  */
 public class TwoCityScheduling {
+
+    int minCost = Integer.MAX_VALUE;
+
     public int twoCitySchedCost(int[][] costs) {
-        return 0;
+        List<Integer> cityA = new ArrayList();
+        dfs(costs, cityA, 0);
+        return minCost;
+    }
+
+    public void dfs(int[][] costs, List<Integer> cityA, int index) {
+        if (cityA.size() == costs.length / 2) {
+            System.out.println(cityA);
+            int tmpCost = 0;
+            for (int i = 0; i < costs.length; i++) {
+                if (cityA.contains(i)) {
+                    tmpCost += costs[i][0];
+                } else {
+                    tmpCost += costs[i][1];
+                }
+            }
+            System.out.println(tmpCost);
+            if (minCost > tmpCost) {
+                minCost = tmpCost;
+            }
+            return;
+        }
+        if (index == costs.length) {
+            return;
+        }
+        if (cityA.isEmpty() && index == ((costs.length / 2) - 1)) {
+            System.out.println(cityA);
+            int tmpCost = 0;
+            for (int i = 0; i < costs.length; i++) {
+                if (i > index) {
+                    tmpCost += costs[i][0];
+                } else {
+                    tmpCost += costs[i][1];
+                }
+            }
+            if (minCost > tmpCost) {
+                minCost = tmpCost;
+            }
+            return;
+        }
+        dfs(costs, new ArrayList<Integer>(cityA), index + 1);
+        List<Integer> newCityA = new ArrayList<Integer>(cityA);
+        newCityA.add(index);
+        dfs(costs, newCityA, index + 1);
+    }
+
+    public static void main(String[] args) {
+        int[][] costs = {{259,770},{448,54},{926,667},{184,139},{840,118},{577,469}};
+        TwoCityScheduling twoCityScheduling = new TwoCityScheduling();
+        twoCityScheduling.twoCitySchedCost(costs);
+        System.out.println(twoCityScheduling.minCost);
     }
 }
