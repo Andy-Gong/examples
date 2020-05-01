@@ -1,6 +1,8 @@
 package greedy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -27,11 +29,26 @@ import java.util.List;
  */
 public class TwoCityScheduling {
 
-    int minCost = Integer.MAX_VALUE;
+    int minCost = 0;
 
     public int twoCitySchedCost(int[][] costs) {
-        List<Integer> cityA = new ArrayList();
-        dfs(costs, cityA, 0);
+//        dfs(costs, cityA, 0);
+        greedy(costs);
+        return minCost;
+    }
+
+    public int greedy(int[][] costs) {
+        Arrays.sort(costs, new Comparator<int[]>() {
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o1[2] - (o2[0] - o2[1]);
+            }
+        });
+        for (int i = 0; i < costs.length; i++) {
+            minCost += costs[i][1];
+        }
+        for (int i = 0; i < costs.length / 2; i++) {
+            minCost += costs[i][0] - costs[i][1];
+        }
         return minCost;
     }
 
