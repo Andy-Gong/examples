@@ -1,5 +1,6 @@
 package heap;
 
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
@@ -29,17 +30,48 @@ import java.util.PriorityQueue;
  * link：https://leetcode-cn.com/problems/continuous-median-lcci
  */
 public class MedianFinder {
-    PriorityQueue<Integer> queue = new PriorityQueue<>();
-    /** initialize your data structure here. */
+
+    PriorityQueue<Integer> maxQueue = new PriorityQueue<>((Comparator<Integer>) (o1, o2) -> o2 - o1);
+    PriorityQueue<Integer> minQueue = new PriorityQueue<>();
+
+    /**
+     * initialize your data structure here.
+     */
     public MedianFinder() {
 
     }
 
     public void addNum(int num) {
-        queue.add(num);
+        if (maxQueue.isEmpty()){
+            maxQueue.add(num);
+            return;
+        }
+        if (minQueue.isEmpty()){
+            minQueue.add(num);
+            return;
+        }
+        if (maxQueue.size() == minQueue.size()) {
+            if (num >= minQueue.peek()) {
+                maxQueue.add(minQueue.poll());
+                minQueue.add(num);
+            } else {
+                maxQueue.add(num);
+            }
+        } else {
+            if (num >= maxQueue.peek()) {
+                minQueue.add(num);
+            } else {
+                minQueue.add(maxQueue.poll());
+                maxQueue.add(num);
+            }
+        }
     }
 
     public double findMedian() {
-        queue.poll();
+        if (maxQueue.size() == minQueue.size()) {
+            return (maxQueue.peek() + minQueue.peek()) / 2.0;
+        } else {
+            return maxQueue.peek();
+        }
     }
 }
