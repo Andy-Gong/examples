@@ -42,12 +42,17 @@ public class MedianFinder {
     }
 
     public void addNum(int num) {
-        if (maxQueue.isEmpty()){
+        if (maxQueue.isEmpty()) {
             maxQueue.add(num);
             return;
         }
-        if (minQueue.isEmpty()){
-            minQueue.add(num);
+        if (minQueue.isEmpty()) {
+            if (num < maxQueue.peek()) {
+                minQueue.add(maxQueue.poll());
+                maxQueue.add(num);
+            } else {
+                minQueue.add(num);
+            }
             return;
         }
         if (maxQueue.size() == minQueue.size()) {
