@@ -17,17 +17,18 @@ import common.ListNode;
  * link：https://leetcode-cn.com/problems/intersection-of-two-linked-lists-lcci
  */
 public class IntersectionOfTwoLinkedLists {
+
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         HashMap<ListNode, Integer> AMap = new HashMap<>();
-        while (headA!=null){
+        while (headA != null) {
             AMap.put(headA, headA.val);
-            headA=headA.next;
+            headA = headA.next;
         }
-        while (headB!=null){
-            if (AMap.containsKey(headB)){
+        while (headB != null) {
+            if (AMap.containsKey(headB)) {
                 return headB;
             }
-            headB=headB.next;
+            headB = headB.next;
         }
         return null;
     }
