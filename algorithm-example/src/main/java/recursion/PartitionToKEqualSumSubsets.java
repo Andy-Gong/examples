@@ -1,5 +1,7 @@
 package recursion;
 
+import java.util.Arrays;
+
 /**
  * Given an array of integers nums and a positive integer k, find whether it's possible to divide this array into k non-empty subsets whose sums are all equal.
  *
@@ -23,6 +25,10 @@ public class PartitionToKEqualSumSubsets {
         }
         int subSum = sum / k;
         int[] subsets = new int[k];
+        Arrays.sort(nums);
+        if (nums[nums.length - 1] > subSum) {
+            return false;
+        }
         return recursion(subsets, nums, 0, subSum);
     }
 
@@ -34,9 +40,6 @@ public class PartitionToKEqualSumSubsets {
                 }
             }
             return true;
-        }
-        if (nums[index] > subSum) {
-            return false;
         }
         for (int i = 0; i < subsets.length; i++) {
             if (subsets[i] >= subSum) {
