@@ -40,35 +40,37 @@ public class KthSymbolInGrammar {
 
     public int kthGrammar(int N, int index, ListNode value, int K) {
         if (index == N + 1) {
-            for (int i = 0; i < K; i++) {
+            for (int i = 1; i < K; i++) {
                 value = value.next;
             }
             return value.val;
 
         }
         ListNode newValue = null;
+        ListNode newTmp = null;
         while (value != null) {
             if (newValue == null) {
                 newValue = new ListNode(0);
-                newValue.next = new ListNode(1);
+                newTmp = newValue;
+                newTmp.next = new ListNode(1);
+                newTmp = newTmp.next;
             } else {
-                if (newValue.val == 0) {
-                    newValue.next = new ListNode(0);
-                    newValue.next.next = new ListNode(1);
+                if (value.val == 0) {
+                    newTmp.next = new ListNode(0);
+                    newTmp.next.next = new ListNode(1);
                 } else {
-                    newValue.next = new ListNode(1);
-                    newValue.next.next = new ListNode(0);
+                    newTmp.next = new ListNode(1);
+                    newTmp.next.next = new ListNode(0);
                 }
-
+                newTmp = newTmp.next.next;
             }
             value = value.next;
         }
-        return kthGrammar(N++, index, newValue, K);
-
+        return kthGrammar(N, ++index, newValue, K);
     }
 
     public static void main(String[] args) {
         KthSymbolInGrammar kthSymbolInGrammar = new KthSymbolInGrammar();
-        kthSymbolInGrammar.kthGrammar(2, 1);
+        System.out.println(kthSymbolInGrammar.kthGrammar(30, 434991989));
     }
 }

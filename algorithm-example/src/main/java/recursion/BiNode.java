@@ -3,7 +3,9 @@ package recursion;
 import common.TreeNode;
 
 /**
- * The data structure TreeNode is used for binary tree, but it can also used to represent a single linked list (where left is null, and right is the next node in the list). Implement a method to convert a binary search tree (implemented with TreeNode) into a single linked list. The values should be kept in order and the operation should be performed in place (that is, on the original data structure).
+ * The data structure TreeNode is used for binary tree, but it can also used to represent a single linked list (where left is null, and right is the next node in the list).
+ * Implement a method to convert a binary search tree (implemented with TreeNode) into a single linked list.
+ * The values should be kept in order and the operation should be performed in place (that is, on the original data structure).
  *
  * Return the head node of the linked list after converting.
  *

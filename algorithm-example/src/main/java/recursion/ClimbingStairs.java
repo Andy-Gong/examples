@@ -25,6 +25,9 @@ public class ClimbingStairs {
         return Integer.valueOf(String.valueOf(totalCount % 1000000007));
     }
 
+    /**
+     * recursion + dp
+     */
     public long recursion(int k, long[] counts) {
         if (k == 0) {
             return 1L;
