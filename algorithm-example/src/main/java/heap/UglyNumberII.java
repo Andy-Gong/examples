@@ -1,6 +1,8 @@
 package heap;
 
+import java.util.HashSet;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 /**
  * Write a program to find the n-th ugly number.
@@ -23,25 +25,35 @@ public class UglyNumberII {
         if (n == 1) {
             return 1;
         } else {
+            Set<Long> valueSet = new HashSet<>();
             PriorityQueue<Long> priorityQueue = new PriorityQueue();
-            priorityQueue.add(2L);
-            priorityQueue.add(3L);
-            priorityQueue.add(5L);
-            while (n > 2) {
+            priorityQueue.add(1L);
+            while (n > 1) {
                 long min = priorityQueue.poll();
-                if (!priorityQueue.contains(min * 2)) {
-                    priorityQueue.add(min * 2);
+                long value2 = min * 2;
+                if (!valueSet.contains(value2)) {
+                    priorityQueue.add(value2);
+                    valueSet.add(value2);
                 }
-                if (!priorityQueue.contains(min * 3)) {
-                    priorityQueue.add(min * 3);
+                long value3 = min * 3;
+                if (!valueSet.contains(value3)) {
+                    priorityQueue.add(value3);
+                    valueSet.add(value3);
                 }
-                if (!priorityQueue.contains(min * 5)) {
-                    priorityQueue.add(min * 5);
+                long value5 = min * 5;
+                if (!valueSet.contains(value5)) {
+                    priorityQueue.add(value5);
+                    valueSet.add(value5);
                 }
                 n--;
 
             }
             return priorityQueue.poll().intValue();
         }
+    }
+
+    public static void main(String[] args) {
+        UglyNumberII uglyNumberII = new UglyNumberII();
+        uglyNumberII.nthUglyNumber(4);
     }
 }
