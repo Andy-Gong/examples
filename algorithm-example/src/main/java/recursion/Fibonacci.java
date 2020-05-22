@@ -16,7 +16,6 @@ package recursion;
  *
  * 来源：力扣（LeetCode）
  * 链接：https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof
- * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class Fibonacci {
 
@@ -25,6 +24,15 @@ public class Fibonacci {
         return recursion(values, n);
     }
 
+    /**
+     * recursion + dp:
+     *
+     * function: f(n) is the fibonacci value of the n
+     * jump out condition: n=0
+     * equation: f(n)=f(n-1)+f(n-2)
+     *
+     * Note: values[i] will store the calculated value of f(i)
+     */
     public int recursion(int[] values, int k) {
         if (values[k] != 0) {
             return values[k];

@@ -9,13 +9,10 @@ import common.ListNode;
  * Examples:
  * Input: N = 1, K = 1
  * Output: 0
- *
  * Input: N = 2, K = 1
  * Output: 0
- *
  * Input: N = 2, K = 2
  * Output: 1
- *
  * Input: N = 4, K = 5
  * Output: 1
  *
@@ -38,6 +35,14 @@ public class KthSymbolInGrammar {
         return kthGrammar(N, 2, listNode, K);
     }
 
+    /**
+     * function: f(n)
+     * @param N
+     * @param index
+     * @param value
+     * @param K
+     * @return
+     */
     public int kthGrammar(int N, int index, ListNode value, int K) {
         if (index == N + 1) {
             for (int i = 1; i < K; i++) {

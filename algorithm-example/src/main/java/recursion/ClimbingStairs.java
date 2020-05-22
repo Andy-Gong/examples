@@ -17,8 +17,6 @@ package recursion;
  */
 public class ClimbingStairs {
 
-    //    long totalCount = 0;
-
     public int numWays(int n) {
         long[] counts = new long[n];
         long totalCount = recursion(n, counts);

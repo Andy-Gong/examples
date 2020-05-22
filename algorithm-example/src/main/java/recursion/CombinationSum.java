@@ -22,6 +22,7 @@ import java.util.List;
  */
 public class CombinationSum {
 
+    //dfs + cut, 92.16%
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
         Arrays.sort(candidates);
@@ -29,8 +30,23 @@ public class CombinationSum {
         return result;
     }
 
+    /**
+     * function: f(n) find candidates whose sum is target
+     * jump condition:
+     *      sum <= 0 or layer = candidates.size,
+     *      if sum=0, find one solution
+     * equation: f(n-1) = f(n) - candidates[i]*j, j is the count of candidates[i]
+     * @param candidates
+     * @param target
+     * @param layer
+     * @param result
+     * @param candidate
+     */
     public void recursion(int[] candidates, int target, int layer, List<List<Integer>> result,
         List<Integer> candidate) {
+        if (target < 0) {
+            return;
+        }
         if (target == 0) {
             result.add(candidate);
             return;
@@ -41,6 +57,8 @@ public class CombinationSum {
         if (candidates[layer] == target) {
             candidate.add(candidates[layer]);
             result.add(candidate);
+            return;
+        } else if (candidates[layer] > target) {
             return;
         }
         int value = candidates[layer];
@@ -53,5 +71,4 @@ public class CombinationSum {
             }
         }
     }
-
 }
