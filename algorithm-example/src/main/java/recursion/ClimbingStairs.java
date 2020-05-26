@@ -1,16 +1,27 @@
 package recursion;
 
 /**
- * 一只青蛙一次可以跳上1级台阶，也可以跳上2级台阶。求该青蛙跳上一个 n 级的台阶总共有多少种跳法。
- * 答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。
+ * You are climbing a stair case. It takes n steps to reach to the top.
  *
- * 示例 1：
- * 输入：n = 2
- * 输出：2
+ * Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
  *
- * 示例 2：
- * 输入：n = 7
- * 输出：21
+ * Note: Given n will be a positive integer.
+ *
+ * Example 1:
+ *
+ * Input: 2
+ * Output: 2
+ * Explanation: There are two ways to climb to the top.
+ * 1. 1 step + 1 step
+ * 2. 2 steps
+ * Example 2:
+ *
+ * Input: 3
+ * Output: 3
+ * Explanation: There are three ways to climb to the top.
+ * 1. 1 step + 1 step + 1 step
+ * 2. 1 step + 2 steps
+ * 3. 2 steps + 1 step
  *
  * 来源：力扣（LeetCode）
  * 链接：https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof

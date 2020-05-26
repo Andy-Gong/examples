@@ -80,4 +80,41 @@ public class MergeTwoSortedLists {
         }
         return resultHead;
     }
+
+    public ListNode mergeTwoListsNew(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+        ListNode head = null;
+        if (l1.val <= l2.val) {
+            head = l1;
+        } else {
+            head = l2;
+        }
+        recursion(l1, l2, null);
+        return head;
+    }
+
+    void recursion(ListNode l1, ListNode l2, ListNode l1Pre) {
+        if (l1 == null) {
+            l1Pre.next = l2;
+            return;
+        }
+        if (l2 == null) {
+            return;
+        }
+        if (l1.val <= l2.val) {
+            recursion(l1.next, l2, l1);
+        } else {
+            ListNode newL2 = l2.next;
+            if (l1Pre != null) {
+                l1Pre.next = l2;
+            }
+            l2.next = l1;
+            recursion(l1, newL2, l2);
+        }
+    }
 }
