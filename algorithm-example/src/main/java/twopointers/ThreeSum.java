@@ -2,9 +2,7 @@ package twopointers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
@@ -26,37 +24,37 @@ public class ThreeSum {
 
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
-        Map<Integer, List<Integer>> map = new HashMap<>();
         Arrays.sort(nums);
         for (int i = 0; i < nums.length; i++) {
-            if (map.get(nums[i]) == null) {
-                map.put(nums[i], new ArrayList<>());
+            if (nums[i] > 0) {
+                break;
             }
-            map.get(nums[i]).add(i);
-        }
-        for (int i = 0; i < nums.length; i++) {
-            List<Integer> first = map.get(nums[i]);
-            first.remove(Integer.valueOf(nums[i]));
             if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
-            for (int j = i + 1; j < nums.length; j++) {
+            for (int j = i + 1, k = nums.length - 1; k > j; ) {
+                if (j >= nums.length) {
+                    break;
+                }
                 if (j > i + 1 && nums[j] == nums[j - 1]) {
+                    j++;
                     continue;
                 }
-                int sum = nums[i] + nums[j];
-                List<Integer> third = map.get(-sum);
-                if (third != null && !third.isEmpty()) {
-                    boolean biggerThanJ = false;
-                    for (int k = 0; k < third.size(); k++) {
-                        if (third.get(k) > j) {
-                            biggerThanJ = true;
-                        }
-                    }
-                    if (biggerThanJ) {
-                        result.add(Arrays.asList(nums[i], nums[j], -sum));
-                    }
+                if (k < (nums.length - 1) && nums[k] == nums[k + 1]) {
+                    k--;
+                    continue;
                 }
+                int sum = nums[i] + nums[j] + nums[k];
+                if (sum == 0) {
+                    result.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    k--;
+                    j++;
+                } else if (sum > 0) {
+                    k--;
+                } else {
+                    j++;
+                }
+
             }
         }
         return result;
