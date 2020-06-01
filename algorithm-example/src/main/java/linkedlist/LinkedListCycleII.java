@@ -23,14 +23,43 @@ import common.ListNode;
  */
 public class LinkedListCycleII {
 
+    //    public ListNode detectCycle(ListNode head) {
+    //        if (head == null || head.next == null) {
+    //            return null;
+    //        }
+    //        ListNode slow = head;
+    //        ListNode fast = head;
+    //        while (true) {
+    //            if (slow == null || fast == null || fast.next == null) {
+    //                return null;
+    //            }
+    //            slow = slow.next;
+    //            fast = fast.next.next;
+    //            if (slow == fast) {
+    //                break;
+    //            }
+    //        }
+    //        /**
+    //         * tortoise is slow pointer, hare is fast pointer
+    //         * 2⋅distance(tortoise)=distance(hare)
+    //         * 2(F+a)=F+a+b+a
+    //         * 2F+2a=F+2a+b
+    //         * F=b
+    //         */
+    //        while (true) {
+    //            if (head == fast) {
+    //                break;
+    //            }
+    //            head = head.next;
+    //            fast = fast.next;
+    //        }
+    //        return fast;
+    //    }
     public ListNode detectCycle(ListNode head) {
-        if (head == null || head.next == null) {
-            return null;
-        }
         ListNode slow = head;
         ListNode fast = head;
         while (true) {
-            if (slow == null || fast == null || fast.next == null) {
+            if (fast == null || slow == null) {
                 return null;
             }
             slow = slow.next;
@@ -39,20 +68,24 @@ public class LinkedListCycleII {
                 break;
             }
         }
-        /**
-         * tortoise is slow pointer, hare is fast pointer
-         * 2⋅distance(tortoise)=distance(hare)
-         * 2(F+a)=F+a+b+a
-         * 2F+2a=F+2a+b
-         * F=b
-         */
-        while (true) {
-            if (head == fast) {
-                break;
-            }
-            head = head.next;
+        while (fast != head) {
             fast = fast.next;
+            head = head.next;
         }
         return fast;
+    }
+
+    public static void main(String[] args) {
+        /**
+         * [3,2,0,-4]
+         */
+        ListNode listNode1 = new ListNode(3);
+        listNode1.next = new ListNode(2);
+        listNode1.next.next = new ListNode(0);
+        listNode1.next.next.next = new ListNode(-4);
+        listNode1.next.next.next.next = listNode1.next;
+
+        LinkedListCycleII linkedListCycleII = new LinkedListCycleII();
+        linkedListCycleII.detectCycle(listNode1);
     }
 }
