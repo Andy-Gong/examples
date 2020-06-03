@@ -11,6 +11,11 @@ import java.util.List;
  */
 public class BinaryCombination {
 
+    /**
+     * dfs algorithm, each step handles one question
+     * @param n
+     * @return
+     */
     public List<List<Byte>> binary(int n) {
         if (n == 1) {
             List<List<Byte>> result = new ArrayList<>();

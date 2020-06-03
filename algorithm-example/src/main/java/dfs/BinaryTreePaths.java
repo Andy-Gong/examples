@@ -12,7 +12,7 @@ import java.util.List;
  *
  * Input:
  *
- * 1
+ *   1
  * /   \
  * 2     3
  * \
@@ -44,6 +44,7 @@ public class BinaryTreePaths {
         return paths;
     }
 
+    //dfs + back track
     public void binaryTreePaths(TreeNode root, List<String> paths, StringBuilder path) {
         if (root == null) {
             return;

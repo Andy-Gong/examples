@@ -1,7 +1,10 @@
 package dfs;
 
 /**
- * The thief has found himself a new place for his thievery again. There is only one entrance to this area, called the "root." Besides the root, each house has one and only one parent house. After a tour, the smart thief realized that "all houses in this place forms a binary tree". It will automatically contact the police if two directly-linked houses were broken into on the same night.
+ * The thief has found himself a new place for his thievery again.
+ * There is only one entrance to this area, called the "root." Besides the root, each house has one and only one parent house.
+ * After a tour, the smart thief realized that "all houses in this place forms a binary tree".
+ * It will automatically contact the police if two directly-linked houses were broken into on the same night.
  *
  * Determine the maximum amount of money the thief can rob tonight without alerting the police.
  *
@@ -9,7 +12,7 @@ package dfs;
  *
  * Input: [3,2,3,null,3,null,1]
  *
- * 3
+ *  3
  * / \
  * 2   3
  * \   \
@@ -63,29 +66,4 @@ public class HouseRobberIII {
             return Math.max(Math.max(trueTrue, falseTrue), Math.max(trueFalse, falseFalse));
         }
     }
-    //    public int rob(TreeNode root) {
-    //        if (root == null) {
-    //            return 0;
-    //        }
-    //        int includeRoot = dfs(root.left, true) + dfs(root.right, true);
-    //        int excludeRoot = dfs(root.left, false) + dfs(root.right, false) + root.val;
-    //        return Math.maxLeft(includeRoot, excludeRoot);
-    //    }
-    //
-    //    public int dfs(TreeNode root, boolean include) {
-    //        if (root == null) {
-    //            return 0;
-    //        }
-    //        if (include) {
-    //            int left = dfs(root.left, false);
-    //            int right = dfs(root.right, false);
-    //            return Math.maxLeft(left, right) + root.val;
-    //        } else {
-    //            int trueTrue = dfs(root.right, true)+dfs(root.left, true);
-    //            int falseTrue = dfs(root.right, false)+dfs(root.left, true);
-    //            int trueFalse = dfs(root.right, true)+dfs(root.left, false);
-    //            int falseFalse = dfs(root.left, false)+dfs(root.right, false);
-    //            return Math.maxLeft(Math.maxLeft(trueTrue, falseTrue),Math.maxLeft(trueFalse,falseFalse));
-    //        }
-    //    }
 }

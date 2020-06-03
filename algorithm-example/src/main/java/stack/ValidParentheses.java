@@ -12,23 +12,22 @@ import java.util.Stack;
  * Note that an empty string is also considered valid.
  *
  * Example 1:
- *
  * Input: "()"
  * Output: true
- * Example 2:
  *
+ * Example 2:
  * Input: "()[]{}"
  * Output: true
- * Example 3:
  *
+ * Example 3:
  * Input: "(]"
  * Output: false
- * Example 4:
  *
+ * Example 4:
  * Input: "([)]"
  * Output: false
- * Example 5:
  *
+ * Example 5:
  * Input: "{[]}"
  * Output: true
  *
@@ -37,35 +36,74 @@ import java.util.Stack;
  */
 public class ValidParentheses {
 
+//    public boolean isValid(String s) {
+//        if (s == null || s.length() == 0) {
+//            return true;
+//        }
+//        if (s.length() % 2 != 0) {
+//            return false;
+//        }
+//        char[] chars = s.toCharArray();
+//        Stack<Character> charsStack = new Stack();
+//        charsStack.push(chars[0]);
+//        for (int i = 1; i < chars.length; i++) {
+//            if (!charsStack.isEmpty() && isPeer(charsStack.peek(), chars[i])) {
+//                charsStack.pop();
+//            } else {
+//                charsStack.push(chars[i]);
+//            }
+//        }
+//        return charsStack.isEmpty();
+//    }
+//
+//    public boolean isPeer(char char1, char char2) {
+//        if (char1 == '(' && char2 == ')') {
+//            return true;
+//        } else if (char1 == '{' && char2 == '}') {
+//            return true;
+//        } else if (char1 == '[' && char2 == ']') {
+//            return true;
+//        }else {
+//            return false;
+//        }
+//    }
+
     public boolean isValid(String s) {
-        if (s == null || s.length() == 0) {
+        if (s == null || s.equals("")) {
             return true;
         }
-        if (s.length() % 2 != 0) {
-            return false;
-        }
+        Stack<Character> stack = new Stack();
         char[] chars = s.toCharArray();
-        Stack<Character> charsStack = new Stack();
-        charsStack.push(chars[0]);
-        for (int i = 1; i < chars.length; i++) {
-            if (!charsStack.isEmpty() && isPeer(charsStack.peek(), chars[i])) {
-                charsStack.pop();
+        for (char c : chars) {
+            if (stack.isEmpty()) {
+                stack.add(c);
             } else {
-                charsStack.push(chars[i]);
+                char latest = stack.peek();
+                if (isPeer(latest, c)) {
+                    stack.pop();
+                } else {
+                    stack.push(c);
+                }
             }
         }
-        return charsStack.isEmpty();
-    }
-
-    public boolean isPeer(char char1, char char2) {
-        if (char1 == '(' && char2 == ')') {
+        if (stack.isEmpty()) {
             return true;
-        } else if (char1 == '{' && char2 == '}') {
-            return true;
-        } else if (char1 == '[' && char2 == ']') {
-            return true;
-        }else {
+        } else {
             return false;
         }
+    }
+
+    /**
+     * '(', ')', '{', '}', '[' and ']'
+     */
+    public boolean isPeer(char c1, char c2) {
+        if (c1 == '(' && c2 == ')') {
+            return true;
+        } else if (c1 == '{' && c2 == '}') {
+            return true;
+        } else if (c1 == '[' && c2 == ']') {
+            return true;
+        }
+        return false;
     }
 }
