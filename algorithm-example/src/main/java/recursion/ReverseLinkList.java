@@ -30,4 +30,16 @@ public class ReverseLinkList {
         head.next = pre;
         return recursion(head, next);
     }
+
+    public ListNode reverseListNew(ListNode head) {
+        ListNode tmp = head;
+        ListNode pre = null;
+        while (tmp != null) {
+            ListNode next = tmp.next;
+            tmp.next = pre;
+            pre = tmp;
+            tmp = next;
+        }
+        return pre;
+    }
 }

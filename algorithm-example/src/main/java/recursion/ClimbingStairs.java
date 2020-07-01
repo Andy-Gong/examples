@@ -57,4 +57,24 @@ public class ClimbingStairs {
         ClimbingStairs climbingStairs = new ClimbingStairs();
         System.out.println(climbingStairs.numWays(92));
     }
+
+    public int numWaysNew(int n) {
+        long[] counts = new long[n];
+        long totalCount = recursion(n);
+        return Integer.valueOf(String.valueOf(totalCount % 1000000007));
+    }
+
+    public long recursion(int n) {
+        if (n == 0) {
+            return 1L;
+        }
+        if (n < 0) {
+            return 0L;
+        }
+        long count1 = recursion(n - 1);
+        long count2 = recursion(n - 2);
+        long count = count1 + count2;
+        return count;
+    }
+
 }

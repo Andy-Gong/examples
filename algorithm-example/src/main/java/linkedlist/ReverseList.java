@@ -13,17 +13,12 @@ public class ReverseList {
         return recursion(head, null);
     }
 
-    private ListNode recursion(ListNode head, ListNode next) {
-        if (head == null) {
-            return next;
+    private ListNode recursion(ListNode current, ListNode prev) {
+        if (current == null) {
+            return prev;
         }
-        ListNode tmp = head.next;
-        if (next == null) {
-            head.next = null;
-        } else {
-            head.next = next;
-
-        }
-        return recursion(tmp, head);
+        ListNode tmp = current.next;
+        current.next = prev;
+        return recursion(tmp, current);
     }
 }
